@@ -1,5 +1,5 @@
 const express = require('express');
-const PORT = process.env.port || 5001;
+const PORT = process.env.port || 3001;
 require('dotenv').config();
 const app = express();
 
@@ -17,15 +17,6 @@ app.get('/', (req, res) => {
 
 app.get('/api', (req, res) => {
     let querySearch = "react";
-    // let queryURL = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${querySearch}&key=${KEY}&maxResults=25`
-    // axios.get(queryURL)
-    //     .then(response => {
-    //         console.log(response.data);
-    //         res.json(response.data);
-    //     })
-    //     .catch(err => {
-    //         console.log(err);
-    //     });
 
     // -- WORKING ON IT ???? -- //
     searchAPI(querySearch)

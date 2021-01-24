@@ -2,27 +2,36 @@ const express = require('express');
 const PORT = process.env.port || 3001;
 require('dotenv').config();
 const mongoose = require('mongoose');
+const searchAPI = require('./utils/API');
+const user_routes = require('./routes/userRoutes');
 
 const app = express();
 
-const searchAPI = require('./utils/API');
-const axios = require("axios");
-const KEY = process.env.API_KEY;
-const db = process.env.MONGODB_URI;
 
 // -- DATABASE CONNECTION -- //
-mongoose.connect(process.env.MONGODB_URI || db || "mongodb://localhost/video_favorites", { 
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/video_favorites", { 
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true
+    }, 
+    (err) => {
+        if(err) {
+            console.log(err);
+            throw err;
+        }
 });
 
 mongoose.connection.on('connected', () => {
     console.log("Mongo DB connected...");
-})
+});
+
 // -- MIDDLEWARE --//
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+
+// -- ROUTES -- //
 app.get('/', (req, res) => {
     res.send("Hit Landing Page");
 });
@@ -40,6 +49,9 @@ app.get('/api', (req, res) => {
             console.log(err);
         });
 });
+
+app.use('/users', user_routes);
+
 
 
 app.listen(PORT, () => {

@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
     res.send("Hit Users Route");
 });
 
-// -- TEST CREATE USER -- //
+
 router.post('/register', async (req, res) => {
     try {
 
@@ -50,7 +50,44 @@ router.post('/register', async (req, res) => {
     } catch(err) {
         res.status(500).json({ error: err.message });
     };
+});
 
+router.post('/login', async (req, res) => {
+    
+    try {
+        const { email, password } = req.body;
+
+        // Validation
+        if(!email || !password) {
+            return res.status(400).json({ msg: "Required field(s) missing" });
+        }
+        // Find User
+        const currentUser = await User.findOne({ email: email });
+        if(!currentUser) {
+            return res.status(500).json({ msg: "Email not registered" });
+        }
+        // Compare Password
+        const passMatch = bcrypt.compare(password, currentUser.password);
+        if(!passMatch) {
+            return res.status(403).json({ msg: "Not Authorized" });
+        }
+        // Create Token
+        const token = jwt.sign({ id: currentUser._id }, process.env.TOKEN_SECRET);
+        // Send Response
+        res.status(200).json({
+            token, 
+            user: {
+                id: currentUser._id,
+                first: currentUser.first,
+                last: currentUser.last,
+                username: currentUser.username,
+                email: currentUser.email,
+            }
+        });
+
+    } catch(err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
 module.exports = router;

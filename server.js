@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api', (req, res) => {
-    let querySearch = "react";
+    let querySearch = req.body.query;
 
     // -- WORKING ON IT ???? -- //
     searchAPI(querySearch)

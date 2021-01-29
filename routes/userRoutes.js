@@ -26,7 +26,7 @@ router.post('/register', async (req, res) => {
         if(password !== passwordCheck) {
             return res.status(400).json({ msg: "Passwords must match"});
         }
-
+        // User Email already exists in database (?)
         const currentUser = await User.findOne({ email: email });
         if(currentUser) {
             return res.status(400).json({ msg: "A User with that email already exists"});
@@ -52,6 +52,8 @@ router.post('/register', async (req, res) => {
     };
 });
 
+
+
 router.post('/login', async (req, res) => {
     
     try {
@@ -73,7 +75,7 @@ router.post('/login', async (req, res) => {
         }
         // Create Token
         const token = jwt.sign({ id: currentUser._id }, process.env.TOKEN_SECRET);
-        // Send Response
+        // Send Successful Response
         res.status(200).json({
             token, 
             user: {

@@ -4,6 +4,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const searchAPI = require('./utils/API');
 const user_routes = require('./routes/userRoutes');
+const api_routes = require('./routes/apiRoutes');
 
 const app = express();
 
@@ -36,21 +37,8 @@ app.get('/', (req, res) => {
     res.send("Hit Landing Page");
 });
 
-app.get('/api', (req, res) => {
-    let querySearch = req.body.query;
-
-    // -- WORKING ON IT ???? -- //
-    searchAPI(querySearch)
-        .then(response => {
-            console.log(response.data);
-            res.json(response.data);
-        })
-        .catch(err => {
-            console.log(err);
-        });
-});
-
 app.use('/users', user_routes);
+app.use('/api', api_routes);
 
 
 

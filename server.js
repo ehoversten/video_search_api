@@ -28,7 +28,7 @@ mongoose.connection.on('connected', () => {
 });
 
 // -- MIDDLEWARE --//
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false })); //Do we need this one still? We can do extended false on express.json
 app.use(express.json());
 
 

@@ -100,7 +100,7 @@ export default function SignUp(props) {
         passwordCheck: '',
       });
       //-- Update toDashboard State
-      alert('Finised!');
+      alert('Finished!');
     } catch (err) {
       console.error(err.response.data);
       // res.status(500).json(err);
@@ -198,6 +198,7 @@ export default function SignUp(props) {
                   type={values.showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={onChangeHandler}
+                  name="password"
                   endAdornment={
                     <InputAdornment position='end'>
                       <IconButton

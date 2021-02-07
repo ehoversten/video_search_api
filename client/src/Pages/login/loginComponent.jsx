@@ -20,10 +20,6 @@ import Button from '@material-ui/core/Button';
 
 
 function Login(props) {
-    // const [email, setEmail] = useState('');
-    // const [password, setPassword] = useState('');
-    // const [check, setCheck] = useState('');
-
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -53,6 +49,18 @@ function Login(props) {
 
     const onSubmit = (event) => {
         event.preventDefault();
+
+        // Validation
+        if (password === '' || passwordCheck === '') {
+            console.log('Missing form information');
+        return
+        }
+
+        if (password !== passwordCheck) {
+            console.error('Passwords do not Match');
+        }
+
+        // Create Temp User
         const userLogin = {
             email,
             password,
@@ -61,6 +69,19 @@ function Login(props) {
 
         console.log(userLogin);
         console.log("Submitting ....")
+        //-- Send to Server Route
+        try {
+
+        } catch(err) {
+            console.log(err);
+        }
+
+        //-- Clear inputs
+        setFormData({
+            email: '',
+            password: '',
+            passwordCheck: '',
+        });
     };
 
     return (

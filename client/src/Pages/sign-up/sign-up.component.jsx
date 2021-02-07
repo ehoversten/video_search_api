@@ -100,7 +100,7 @@ export default function SignUp(props) {
         passwordCheck: '',
       });
       //-- Update toDashboard State
-      alert('Finished!');
+      // alert('Finished!');
     } catch (err) {
       console.error(err.response.data);
       // res.status(500).json(err);

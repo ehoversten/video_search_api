@@ -21,17 +21,35 @@ function App() {
   useEffect(() => {
     // Define an ASYNC function to check for Token
     const isLoggedIn = async () => {
-      let token = localStorage.getItem("auth-token");
+      let token = await localStorage.getItem("x-auth-token");
+      console.log(`Token is: ${token}`);
+
       if(token === null) {
-        localStorage.setItem('auth-token', '');
+        localStorage.setItem('x-auth-token', '');
+        console.log('setting empty token in local storage')
         token = '';
       }
-      const tokenRes = await axios.post("/api/verifyToken", null, 
+
+      let tokenRes = await axios.post("/users/verify-token", null, 
         { 
           headers: { 'x-auth-token': token }
         });
-      console.log(tokenRes);
-    }
+      console.log(`Verify Token: ${tokenRes}`);
+      console.log(`Verify Token: ${tokenRes.data}`);
+
+      if(tokenRes.data) {
+        const userRes = await axios.get("http://localhost:3001/users/", { headers: { 'x-auth-token': token }
+        })
+        console.log("Updating User");
+        // Update User State
+        setUserData({
+          token: token,
+          user: userRes.data
+        });
+      } else {
+        console.log("No Token Data");
+      }
+    };
     // Invoke Function
     isLoggedIn();
   }, []);

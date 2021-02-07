@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const PORT = process.env.port || 3001;
 require('dotenv').config();
 const mongoose = require('mongoose');
@@ -7,7 +8,7 @@ const user_routes = require('./routes/userRoutes');
 const api_routes = require('./routes/apiRoutes');
 
 const app = express();
-
+app.use(cors());
 
 // -- DATABASE CONNECTION -- //
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/video_favorites", { 

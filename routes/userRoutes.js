@@ -1,11 +1,18 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const isAuthorized = require('../utils/auth');
 
 const User = require('../models/User');
 
-router.get('/', (req, res) => {
-    res.send("Hit Users Route");
+router.get('/', isAuthorized, async (req, res) => {
+    try {
+        console.log(req.user);
+        const user = await User.findById(req.user);
+        res.send(user);
+    } catch(err) {
+        res.status(400).json({ msg: "Not Authorized", error: err });
+    }
 });
 
 
@@ -62,7 +69,7 @@ router.post('/login', async (req, res) => {
         // Validation
         if(!email || !password) {
             return res.status(400).json({ msg: "Required field(s) missing" });
-        }
+        }   
         // Find User
         const currentUser = await User.findOne({ email: email });
         if(!currentUser) {
@@ -91,5 +98,36 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
+router.post('/verify-token', async (req, res) => {
+    try {
+        // -- Check Header for Token
+        const token = req.header("x-auth-token");
+        if(!token) return res.json(false);
+        // -- Verify Token
+        const verified = jwt.verify(token, process.env.TOKEN_SECRET);
+        if(!verified) return res.json(false);
+        // -- Valid User (?)
+        const user = User.findById({ id: verified._id });
+        if(!user) return res.json(false);
+        // -- Return TRUE if valid token
+        return res.json(true);
+    } catch(err) {
+        console.log(err);
+        res.status(400).json(err);
+    }
+});
+
+
+// -- TESTING -- //
+router.get('/admin', async (req, res) => {
+    try {
+        let users = await User.find({});
+        res.status(200).json(users);
+    } catch(err) {
+        console.log(err);
+    }
+
+})
 
 module.exports = router;

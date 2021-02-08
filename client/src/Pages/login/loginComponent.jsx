@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-
+import React, { useState, useContext } from 'react';
+import { Redirect, useHistory } from 'react-router-dom';
+import axios from 'axios';
+import UserContext from '../context/userContext';
 //Styles
 import useStyles from './login.styles';
 
@@ -20,18 +22,25 @@ import Button from '@material-ui/core/Button';
 
 
 function Login(props) {
+    // Bring in the User Context so we can update on submission
+    const history = useHistory();
+    const { setUserData } = useContext(UserContext);
+    const classes = useStyles(props);
+
+    // Form Hooks
     const [formData, setFormData] = useState({
         email: '',
         password: '',
         passwordCheck: '',
     });
+
     const [values, setValues] = useState({
         amount: '',
         password: '',
         showPassword: false,
+        showDashboard: false
     });
 
-    const classes = useStyles(props);
     const { email, password, passwordCheck } = formData;
 
     const onChangeHandler = (e) => {
@@ -46,42 +55,46 @@ function Login(props) {
         event.preventDefault();
     };
 
-
-    const onSubmit = (event) => {
+    const onSubmit = async (event) => {
         event.preventDefault();
 
         // Validation
         if (password === '' || passwordCheck === '') {
             console.log('Missing form information');
         return
-        }
-
+        };
         if (password !== passwordCheck) {
             console.error('Passwords do not Match');
-        }
+        };
 
-        // Create Temp User
-        const userLogin = {
-            email,
-            password,
-            passwordCheck
-        }
-
-        console.log(userLogin);
-        console.log("Submitting ....")
         //-- Send to Server Route
         try {
+          let authorized = await axios.post('/users/login', { email, password });
+          // console.log(`Authorized: ${authorized}`);
+          // console.log(authorized);
+          if(authorized) {
+            localStorage.setItem('x-auth-token', authorized.data.token);
+
+            setUserData({
+              token: authorized.data.token,
+              user: authorized.data.user
+            })
+          }
+
+          //-- Clear inputs
+          setFormData({
+            email: '',
+            password: '',
+            passwordCheck: '',
+          });
+
+          // Redirect to Another Component
+          history.push('/users');
 
         } catch(err) {
             console.log(err);
         }
 
-        //-- Clear inputs
-        setFormData({
-            email: '',
-            password: '',
-            passwordCheck: '',
-        });
     };
 
     return (
@@ -111,7 +124,7 @@ function Login(props) {
                   label='Email'
                   variant='outlined'
                   onChange={onChangeHandler}
-                  defaultValue={email}
+                  value={email}
                   name='email'
                 />
               </FormControl>
@@ -161,7 +174,7 @@ function Login(props) {
                   type='password'
                   variant='outlined'
                   onChange={onChangeHandler}
-                  defaultValue={passwordCheck}
+                  value={passwordCheck}
                   name='passwordCheck'
                 />
               </FormControl>

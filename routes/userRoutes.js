@@ -62,7 +62,6 @@ router.post('/register', async (req, res) => {
 
 
 router.post('/login', async (req, res) => {
-    
     try {
         const { email, password } = req.body;
 
@@ -100,7 +99,6 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/verify-token', async (req, res) => {
-    console.log("Verify Route");
     try {
         // -- Check Header for Token
         const token = req.header("x-auth-token");

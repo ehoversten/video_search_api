@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { Redirect, useHistory } from 'react-router-dom';
 import axios from 'axios';
-
+import UserContext from '../context/userContext';
 //Styles
-import useStyles from './sign-up.styles';
+import useStyles from './login.styles';
 
 //Material ui
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -19,95 +20,84 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from '@material-ui/core/Button';
 
-export default function SignUp(props) {
-  const [formData, setFormData] = useState({
-    first: '',
-    last: '',
-    username: '',
-    email: '',
-    password: '',
-    passwordCheck: '',
-  });
-  const [values, setValues] = React.useState({
-    amount: '',
-    password: '',
-    showPassword: false,
-  });
 
-  const classes = useStyles(props);
-  const { first, last, username, email, password, passwordCheck } = formData;
+function Login(props) {
+    // Bring in the User Context so we can update on submission
+    const history = useHistory();
+    const { setUserData } = useContext(UserContext);
+    const classes = useStyles(props);
 
-  const onChangeHandler = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword });
-  };
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-
-    if (password === '' || passwordCheck === '') {
-      console.log('Missing form information');
-      return
-    }
-
-    if (password !== passwordCheck) {
-      console.error('Passwords do not Match');
-    }
-
-    //-- TESTING --//
-    console.log('Submitting');
-    console.log(formData);
-
-    //-- create temp user
-    const user = {
-      first,
-      last,
-      username,
-      email,
-      password,
-      passwordCheck,
-    };
-
-    //-- Send to Server Route
-    try {
-      //-- Create 'config' for sending headers
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
-      //-- Stringify User Input
-      const body = JSON.stringify(user);
-
-      console.log(body);
-      const res = await axios.post('/users/register', body, config);
-      //-- TESTING --//
-      console.log(res.data);
-
-      //-- Clear inputs
-      setFormData({
-        first: '',
-        last: '',
-        username: '',
+    // Form Hooks
+    const [formData, setFormData] = useState({
         email: '',
         password: '',
         passwordCheck: '',
-      });
-      //-- Update toDashboard State
-      // alert('Finished!');
-    } catch (err) {
-      console.error(err.response.data);
-      // res.status(500).json(err);
-    }
-  };
+    });
 
-  return (
+    const [values, setValues] = useState({
+        amount: '',
+        password: '',
+        showPassword: false,
+        showDashboard: false
+    });
+
+    const { email, password, passwordCheck } = formData;
+
+    const onChangeHandler = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleClickShowPassword = () => {
+        setValues({ ...values, showPassword: !values.showPassword });
+    };
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
+
+    const onSubmit = async (event) => {
+        event.preventDefault();
+
+        // Validation
+        if (password === '' || passwordCheck === '') {
+            console.log('Missing form information');
+        return
+        };
+        if (password !== passwordCheck) {
+            console.error('Passwords do not Match');
+        };
+
+        //-- Send to Server Route
+        try {
+          let authorized = await axios.post('/users/login', { email, password });
+          // console.log(`Authorized: ${authorized}`);
+          // console.log(authorized);
+          if(authorized) {
+            localStorage.setItem('x-auth-token', authorized.data.token);
+
+            setUserData({
+              token: authorized.data.token,
+              user: authorized.data.user
+            })
+          }
+
+          //-- Clear inputs
+          setFormData({
+            email: '',
+            password: '',
+            passwordCheck: '',
+          });
+
+          // Redirect to Another Component
+          history.push('/users');
+
+        } catch(err) {
+            console.log(err);
+        }
+
+    };
+
+    return (
     <React.Fragment>
       <CssBaseline>
         <Container
@@ -116,7 +106,7 @@ export default function SignUp(props) {
         >
           <Paper className={`${classes.paperContainer}`}>
             <Typography variant='h4' component='h4' gutterBottom>
-              Welcome Register!
+              Login
             </Typography>
 
             <form
@@ -130,57 +120,11 @@ export default function SignUp(props) {
                 className={`${classes.formControl}`}
               >
                 <TextField
-               
-                  id='outlined-basic'
-                  label='First Name'
-                  variant='outlined'
-                  onChange={onChangeHandler}
-                  defaultValue={first}
-                  name='first'
-                />
-              </FormControl>
-
-              <FormControl
-                fullWidth
-                margin='dense'
-                className={`${classes.formControl}`}
-              >
-                <TextField
-                  id='outlined-basic'
-                  label='Last Name'
-                  variant='outlined'
-                  onChange={onChangeHandler}
-                  defaultValue={last}
-                  name='last'
-                />
-              </FormControl>
-
-              <FormControl
-                fullWidth
-                margin='dense'
-                className={`${classes.formControl}`}
-              >
-                <TextField
-                  id='outlined-basic'
-                  label='Username'
-                  variant='outlined'
-                  onChange={onChangeHandler}
-                  defaultValue={username}
-                  name='username'
-                />
-              </FormControl>
-
-              <FormControl
-                fullWidth
-                margin='dense'
-                className={`${classes.formControl}`}
-              >
-                <TextField
                   id='outlined-basic'
                   label='Email'
                   variant='outlined'
                   onChange={onChangeHandler}
-                  defaultValue={email}
+                  value={email}
                   name='email'
                 />
               </FormControl>
@@ -230,7 +174,7 @@ export default function SignUp(props) {
                   type='password'
                   variant='outlined'
                   onChange={onChangeHandler}
-                  defaultValue={passwordCheck}
+                  value={passwordCheck}
                   name='passwordCheck'
                 />
               </FormControl>
@@ -250,3 +194,5 @@ export default function SignUp(props) {
     </React.Fragment>
   );
 }
+
+export default Login;

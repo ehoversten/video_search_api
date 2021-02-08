@@ -23,6 +23,11 @@ function DashboardComponent(props) {
             <>
                 <h1>Welcome Auth Dashboard</h1>
                 <h4>{ userData.user.username }</h4>
+                {/* { if(isLoggedIn) (
+                    return <button>Logout</button>;
+                 ) else (
+                    return <button>Login</button>;
+                 ) } */}
             </>        
         ) : ( <h1>Welcome Auth Dash</h1> )
 }

@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
 import axios from 'axios';
-import UserContext from '../context/userContext';
+import userContext from '../../contexts/userContext';
+
 //Styles
 import useStyles from './login.styles';
 
@@ -24,7 +25,7 @@ import Button from '@material-ui/core/Button';
 function Login(props) {
     // Bring in the User Context so we can update on submission
     const history = useHistory();
-    const { setUserData } = useContext(UserContext);
+    const { setUserData } = useContext(userContext);
     const classes = useStyles(props);
 
     // Form Hooks

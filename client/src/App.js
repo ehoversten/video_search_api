@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import UserContext from './Pages/context/userContext';
+import userContext from './contexts/userContext';
 import axios from 'axios';
 
 //Material Ui
@@ -57,14 +57,14 @@ function App() {
 
   return (
     <div className='App'>
-      <UserContext.Provider value={{ userData, setUserData }}>
+      <userContext.Provider value={{ userData, setUserData }}>
         <Switch>
           <Route exact path='/' component={Homepage} />
           <Route exact path='/users' component={AuthDashboard} />
           <Route exact path='/signup' component={SignUp} />
           <Route exact path='/login' component={Login} />
         </Switch>
-      </UserContext.Provider>
+      </userContext.Provider>
     </div>
   );
 }

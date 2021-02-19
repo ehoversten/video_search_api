@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import UserContext from '../context/userContext';
+import userContext from '../../contexts/userContext';
+
 
 function DashboardComponent(props) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const { userData } = useContext(UserContext);
+    const { userData } = useContext(userContext);
     const history = useHistory();
 
     useEffect(() => {

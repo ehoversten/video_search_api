@@ -71,8 +71,11 @@ function Login(props) {
         //-- Send to Server Route
         try {
           let authorized = await axios.post('/users/login', { email, password });
-          // console.log(`Authorized: ${authorized}`);
-          // console.log(authorized);
+          // -- TESTING -- //
+          console.log(`Authorized:`);
+          console.log(authorized);
+
+          
           if(authorized) {
             localStorage.setItem('x-auth-token', authorized.data.token);
 
@@ -82,6 +85,7 @@ function Login(props) {
             })
           }
 
+          
           //-- Clear inputs
           setFormData({
             email: '',

@@ -7,6 +7,7 @@ const User = require('../models/User');
 
 router.get('/', isAuthorized, async (req, res) => {
     try {
+        console.log("Access Granted!!")
         console.log(req.user);
         const user = await User.findById(req.user);
         res.send(user);
@@ -15,7 +16,8 @@ router.get('/', isAuthorized, async (req, res) => {
     }
 });
 
-
+// @@ REGISTER ROUTE
+// @@
 router.post('/register', async (req, res) => {
     try {
 
@@ -51,25 +53,38 @@ router.post('/register', async (req, res) => {
             password: passwordHash
         });   
 
-        const savedUser = await newUser.save()
-        res.status(201).json(savedUser);
+        // Save User to DB
+        const savedUser = await newUser.save();
 
+        // --> Log User In
+        // Create/Sign Token
+        const token = jwt.sign({ user: savedUser._id }, process.env.TOKEN_SECRET )
+        console.log(token);
+        // send token in HTTP-only Cookie
+        res.cookie("token", token, { httpOnly: true }).send();
+
+        // Send JSON response
+        // res.status(200).json({
+        //     token, 
+        //     user: savedUser
+        // });
     } catch(err) {
         res.status(500).json({ error: err.message });
     };
 });
 
 
-
+// @@ LOGIN ROUTE
+// @@
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Validation
+        // Empty Validation
         if(!email || !password) {
             return res.status(400).json({ msg: "Required field(s) missing" });
         }   
-        // Find User
+        // Find Existing User (?)
         const currentUser = await User.findOne({ email: email });
         if(!currentUser) {
             return res.status(500).json({ msg: "Email not registered" });
@@ -82,6 +97,10 @@ router.post('/login', async (req, res) => {
         // Create Token
         const token = jwt.sign({ id: currentUser._id }, process.env.TOKEN_SECRET);
         // Send Successful Response
+
+        // send token in HTTP-only Cookie
+        res.cookie("token", token, { httpOnly: true }).send();
+        // Send JSON response
         res.status(200).json({
             token, 
             user: {
@@ -98,23 +117,56 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.post('/verify-token', async (req, res) => {
+
+// @@ LOGOUT ROUTE
+// @@
+router.get('/logout', (req, res) => {
+    res.headers({ "x-auth-token": "" });
+    res.cookie("token", "", { httpOnly: true, expires: new Date(0) }).send();
+})
+
+
+
+// @@ VERIFICATION ROUTE
+// @@
+// router.post('/verify-token', async (req, res) => {
+router.get('/verify-token', async (req, res) => {
+    console.log("Token Verification ...")
     try {
+        // Check Cookie for Token
+        const cookie = req.cookies.token;
+        if(!cookie) {
+            return res.json(false);
+        }
         // -- Check Header for Token
-        const token = req.header("x-auth-token");
-        if(!token) return res.json(false);
+        // const token = req.header("x-auth-token");
+        // if(!token) return res.json(false);
+
         // -- Verify Token
-        const verified = jwt.verify(token, process.env.TOKEN_SECRET);
+        // const verified = jwt.verify(token, process.env.TOKEN_SECRET);
+        const verified = jwt.verify(cookie, process.env.TOKEN_SECRET);
+        console.log(verified);
         if(!verified) return res.json(false);
+
+
         // -- Valid User (?)
-        const user = User.findById({ id: verified._id });
+        const user = await User.findById({ _id: verified.id });
+        console.log(user);
         if(!user) return res.json(false);
-        // -- Return TRUE if valid token
+
+        // -- Return TRUE if valid token || to WHERE ??
         return res.json(true);
     } catch(err) {
         console.log(err);
-        res.status(400).json(err);
+        res.status(400).json({ msg: "OOPS", error: err });
     }
+
+    // Set User ID
+    req.user = verified.user;
+    console.log(req.user);
+    // Call Next middleware
+    console.log("Calling NEXT Middleware")
+    next();
 });
 
 

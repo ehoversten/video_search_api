@@ -9,13 +9,19 @@ function DashboardComponent(props) {
     const history = useHistory();
 
     useEffect(() => {
-        console.log(userData);
 
-        if(!userData.user) {
-            history.push('/login');
-        }  else {
-            setIsLoggedIn(true);
-        }
+        fetch('/users/')
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(err => console.log(err));
+
+        // console.log(userData);
+
+        // if(!userData.user) {
+        //     history.push('/login');
+        // }  else {
+        //     setIsLoggedIn(true);
+        // }
 
     }, []);
 

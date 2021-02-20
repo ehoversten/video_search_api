@@ -9,7 +9,7 @@ function AuthContextProvider(props) {
 
     async function getLoggedIn() {
         const loggedInRes = await axios.get('/users/verify-token');
-        console.log(loggedInRes);
+        console.log(`User logged in: ${loggedInRes.data}`);
         setLoggedIn(loggedInRes.data);
     }
 
@@ -18,7 +18,7 @@ function AuthContextProvider(props) {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ loggedIn, setLoggedIn }}>
+        <AuthContext.Provider value={{ loggedIn, getLoggedIn }}>
             { props.children }
         </AuthContext.Provider>
     )

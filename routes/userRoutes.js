@@ -10,7 +10,8 @@ router.get('/', isAuthorized, async (req, res) => {
         console.log("Access Granted!!")
         console.log(req.user);
         const user = await User.findById(req.user);
-        res.send(user);
+        // res.send(user);
+        res.status(200).json(user)
     } catch(err) {
         res.status(400).json({ msg: "Not Authorized", error: err });
     }
@@ -158,7 +159,7 @@ router.get('/verify-token', async (req, res) => {
         return res.json(true);
     } catch(err) {
         console.log(err);
-        res.status(400).json({ msg: "OOPS", error: err });
+        res.status(400).json(false);
     }
 
     // Set User ID

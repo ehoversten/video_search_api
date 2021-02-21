@@ -1,5 +1,6 @@
 import { createContext, useEffect } from 'react';
 import { userReducer } from './../reducers/userReducer';
+import axios from 'axios';
 
 const defaultUser = {
   token: undefined,

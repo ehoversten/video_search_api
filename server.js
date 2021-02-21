@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const PORT = process.env.port || 3001;
 require('dotenv').config();
 const mongoose = require('mongoose');
@@ -9,6 +10,7 @@ const api_routes = require('./routes/apiRoutes');
 
 const app = express();
 app.use(cors());
+// app.use(cors({ credentials: true }));
 
 // -- DATABASE CONNECTION -- //
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/video_favorites", { 
@@ -31,6 +33,7 @@ mongoose.connection.on('connected', () => {
 // -- MIDDLEWARE --//
 app.use(express.urlencoded({ extended: false })); //Do we need this one still? We can do extended false on express.json
 app.use(express.json());
+app.use(cookieParser());
 
 
 // -- ROUTES -- //

@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import userContext from '../../contexts/userContext';
-
+import AuthContext from '../../contexts/authContext';
 //Styles
 import useStyles from './login.styles';
 
@@ -26,6 +26,8 @@ function Login(props) {
     // Bring in the User Context so we can update on submission
     const history = useHistory();
     const { setUserData } = useContext(userContext);
+    const { getLoggedIn } = useContext(AuthContext);
+
     const classes = useStyles(props);
 
     // Form Hooks
@@ -71,17 +73,22 @@ function Login(props) {
         //-- Send to Server Route
         try {
           let authorized = await axios.post('/users/login', { email, password });
-          // console.log(`Authorized: ${authorized}`);
-          // console.log(authorized);
-          if(authorized) {
-            localStorage.setItem('x-auth-token', authorized.data.token);
+          // -- TESTING -- //
+          console.log(`Authorized:`);
+          console.log(authorized);
 
-            setUserData({
-              token: authorized.data.token,
-              user: authorized.data.user
-            })
-          }
+          await getLoggedIn();
+          
+          // if(authorized) {
+          //   localStorage.setItem('x-auth-token', authorized.data.token);
 
+          //   setUserData({
+          //     token: authorized.data.token,
+          //     user: authorized.data.user
+          //   })
+          // }
+
+          
           //-- Clear inputs
           setFormData({
             email: '',

@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import UserContext from '../../contexts/userContext';
+import AuthContext from '../../contexts/authContext';
 import axios from 'axios';
 
 //Styles
@@ -20,6 +23,11 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from '@material-ui/core/Button';
 
 export default function SignUp(props) {
+  const history = useHistory();
+
+  const { setUserData } = useContext(UserContext);
+  const { loggedIn, getLoggedIn } = useContext(AuthContext);
+
   const [formData, setFormData] = useState({
     first: '',
     last: '',
@@ -81,6 +89,7 @@ export default function SignUp(props) {
         headers: {
           'Content-Type': 'application/json',
         },
+        withCredentials: true
       };
       //-- Stringify User Input
       const body = JSON.stringify(user);
@@ -90,7 +99,20 @@ export default function SignUp(props) {
       //-- TESTING --//
       console.log(res.data);
 
-      //-- Clear inputs
+      
+      await getLoggedIn();
+
+      // if(res) {
+      //   localStorage.setItem('x-auth-token', res.data.token);
+
+      //   setUserData({
+      //     token: res.data.token,
+      //     user: res.data.user
+      //   })
+      // }
+
+      
+      //-- Clear input -- //
       setFormData({
         first: '',
         last: '',
@@ -99,6 +121,8 @@ export default function SignUp(props) {
         password: '',
         passwordCheck: '',
       });
+
+      history.push("/users");
       //-- Update toDashboard State
       // alert('Finished!');
     } catch (err) {

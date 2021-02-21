@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import UserContext from '../../contexts/userContext';
+import AuthContext from '../../contexts/authContext';
 import axios from 'axios';
 
 //Styles
@@ -23,7 +24,10 @@ import Button from '@material-ui/core/Button';
 
 export default function SignUp(props) {
   const history = useHistory();
-  const { setUserData } = useContext(UserContext)
+
+  const { setUserData } = useContext(UserContext);
+  const { loggedIn, getLoggedIn } = useContext(AuthContext);
+
   const [formData, setFormData] = useState({
     first: '',
     last: '',
@@ -94,15 +98,21 @@ export default function SignUp(props) {
       const res = await axios.post('/users/register', body, config);
       //-- TESTING --//
       console.log(res.data);
-      if(res) {
-        localStorage.setItem('x-auth-token', res.data.token);
 
-        setUserData({
-          token: res.data.token,
-          user: res.data.user
-        })
-      }
-      //-- Clear inputs
+      
+      await getLoggedIn();
+
+      // if(res) {
+      //   localStorage.setItem('x-auth-token', res.data.token);
+
+      //   setUserData({
+      //     token: res.data.token,
+      //     user: res.data.user
+      //   })
+      // }
+
+      
+      //-- Clear input -- //
       setFormData({
         first: '',
         last: '',

@@ -59,16 +59,16 @@ router.post('/register', async (req, res) => {
 
         // --> Log User In
         // Create/Sign Token
-        const token = jwt.sign({ user: savedUser._id }, process.env.TOKEN_SECRET )
+        const token = jwt.sign({ id: savedUser._id }, process.env.TOKEN_SECRET )
         console.log(token);
         // send token in HTTP-only Cookie
         res.cookie("token", token, { httpOnly: true }).send();
 
         // Send JSON response
-        // res.status(200).json({
-        //     token, 
-        //     user: savedUser
-        // });
+        res.status(200).json({
+            token, 
+            user: savedUser
+        });
     } catch(err) {
         res.status(500).json({ error: err.message });
     };
@@ -101,9 +101,11 @@ router.post('/login', async (req, res) => {
 
         // send token in HTTP-only Cookie
         res.cookie("token", token, { httpOnly: true }).send();
+
+
         // Send JSON response
         res.status(200).json({
-            token, 
+            // token, 
             user: {
                 id: currentUser._id,
                 first: currentUser.first,
@@ -122,7 +124,7 @@ router.post('/login', async (req, res) => {
 // @@ LOGOUT ROUTE
 // @@
 router.get('/logout', (req, res) => {
-    res.headers({ "x-auth-token": "" });
+    // res.headers({ "x-auth-token": "" });
     res.cookie("token", "", { httpOnly: true, expires: new Date(0) }).send();
 })
 
@@ -136,6 +138,7 @@ router.get('/verify-token', async (req, res) => {
     try {
         // Check Cookie for Token
         const cookie = req.cookies.token;
+        console.log(cookie);
         if(!cookie) {
             return res.json(false);
         }
@@ -152,6 +155,7 @@ router.get('/verify-token', async (req, res) => {
 
         // -- Valid User (?)
         const user = await User.findById({ _id: verified.id });
+        // const user = await User.findById({ _id: verified.user });
         console.log(user);
         if(!user) return res.json(false);
 

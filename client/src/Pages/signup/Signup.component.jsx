@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import UserContext from '../../contexts/userContext';
 import AuthContext from '../../contexts/authContext';
+
 import axios from 'axios';
 
 // Styles
@@ -17,7 +17,6 @@ import Button from 'react-bootstrap/Button';
 export default function SignUp() {
   const history = useHistory();
 
-  const { setUserData } = useContext(UserContext);
   const { loggedIn, getLoggedIn } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
@@ -28,17 +27,13 @@ export default function SignUp() {
     password: '',
     passwordCheck: '',
   });
-  const [values, setValues] = React.useState({
-    amount: '',
-    password: '',
-    showPassword: false,
-  });
 
   const { first, last, username, email, password, passwordCheck } = formData;
 
   const onChangeHandler = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -111,6 +106,8 @@ export default function SignUp() {
       // res.status(500).json(err);
     }
   };
+
+  
   return (
     <Container className={`${classes.formContainer} `}>
       <Row className='justify-content-center'>

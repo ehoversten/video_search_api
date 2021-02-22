@@ -145,7 +145,7 @@ export default function SignUp() {
               />
             </Form.Group>
             <Form.Group controlId='formGroupEmail'>
-              <Form.Label>Username</Form.Label>
+              <Form.Label>Email</Form.Label>
               <Form.Control
                 type='email'
                 placeholder=''

@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
 import axios from 'axios';
-import userContext from '../../contexts/userContext';
 import AuthContext from '../../contexts/authContext';
 
 // Styles
@@ -17,7 +16,7 @@ import Button from 'react-bootstrap/Button';
 function Login(props) {
   // Bring in the User Context so we can update on submission
   const history = useHistory();
-  const { setUserData } = useContext(userContext);
+
   const { getLoggedIn } = useContext(AuthContext);
 
   // Form Hooks
@@ -25,13 +24,6 @@ function Login(props) {
     email: '',
     password: '',
     passwordCheck: '',
-  });
-
-  const [values, setValues] = useState({
-    amount: '',
-    password: '',
-    showPassword: false,
-    showDashboard: false,
   });
 
   const { email, password, passwordCheck } = formData;
@@ -88,10 +80,10 @@ function Login(props) {
     <Container className={`${classes.formContainer} `}>
       <Row className='justify-content-center'>
         <Col xs={10} md={8} lg={6} className={classes.Column}>
-          <p className={classes.FormTitle}>Welcome! Register</p>
+          <p className={classes.FormTitle}>Welcome Back!</p>
           <Form autoComplete='on' onSubmit={onSubmit}>
             <Form.Group controlId='formGroupEmail'>
-              <Form.Label>Username</Form.Label>
+              <Form.Label>Email</Form.Label>
               <Form.Control
                 type='email'
                 placeholder=''

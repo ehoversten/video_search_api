@@ -1,5 +1,4 @@
 import React from 'react';
-import SignUp from '../sign-up/sign-up.component';
 
 export default function Homepage() {
   return (

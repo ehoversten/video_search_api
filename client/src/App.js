@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import userContext from './contexts/userContext';
 import axios from 'axios';
 
 // -- TESTING -- //
@@ -61,7 +60,6 @@ function App() {
 
   return (
     <div className='App'>
-      <userContext.Provider value={{ userData, setUserData }}>
         <AuthContextProvider value={{ loggedIn, setLoggedIn }}>
           <Switch>
             <Route exact path='/' component={Homepage} />
@@ -70,7 +68,6 @@ function App() {
             <Route exact path='/login' component={Login} />
           </Switch>
         </AuthContextProvider>
-      </userContext.Provider>
     </div>
   );
 }

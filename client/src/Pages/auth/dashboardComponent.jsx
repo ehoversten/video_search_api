@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import userContext from '../../contexts/userContext';
 import AuthContext from '../../contexts/authContext';
 import LogOutBtn from '../auth/LogoutBtn' ;
 
@@ -8,11 +7,9 @@ import LogOutBtn from '../auth/LogoutBtn' ;
 function DashboardComponent(props) {
     // const [isLoggedIn, setIsLoggedIn] = useState(false);
     const { loggedIn, setLoggedIn } = useContext(AuthContext);
-    const { userData } = useContext(userContext);
     const history = useHistory();
 
     useEffect(() => {
-        console.log(userData);
         // console.log(req.user);
         fetch('/users/')
             .then(res => res.json())

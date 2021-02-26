@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const searchAPI = require('../utils/API');
-const isAuthorized = require('../utils/auth');
+const {isAuthorized} = require('../utils/auth');
 
 
 router.get('/', isAuthorized, (req, res) => {

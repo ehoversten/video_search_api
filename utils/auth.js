@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 
 const isAuthorized = (req, res, next) => {
   // Capture Token
@@ -55,5 +55,5 @@ const verifyPassword = (passwordAttempt, hashedPassword) => {
 module.exports = {
   isAuthorized,
   createToken,
-  verify,
+  verifyPassword,
 };

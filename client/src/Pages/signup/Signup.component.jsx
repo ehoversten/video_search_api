@@ -34,7 +34,6 @@ export default function SignUp() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -107,79 +106,76 @@ export default function SignUp() {
     }
   };
 
-  
   return (
-    <Container className={`${classes.formContainer} `}>
-      <Row className='justify-content-center'>
-        <Col xs={10} md={8} lg={6} className={classes.Column}>
-          <p className={classes.FormTitle}>Welcome! Register</p>
-          <Form autoComplete='on' onSubmit={(e) => onSubmit(e)}>
-            <Form.Group controlId='formGroupEmail'>
-              <Form.Label>First Name</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder=''
-                onChange={onChangeHandler}
-                name='first'
-                value={first}
-              />
-            </Form.Group>
-            <Form.Group controlId='formGroupEmail'>
-              <Form.Label>Last Name</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder=''
-                onChange={onChangeHandler}
-                name='last'
-                value={last}
-              />
-            </Form.Group>
-            <Form.Group controlId='formGroupEmail'>
-              <Form.Label>Username</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder=''
-                onChange={onChangeHandler}
-                name='username'
-                value={username}
-              />
-            </Form.Group>
-            <Form.Group controlId='formGroupEmail'>
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type='email'
-                placeholder=''
-                onChange={onChangeHandler}
-                name='email'
-                value={email}
-              />
-            </Form.Group>
-            <Form.Group controlId='formGroupPassword'>
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type='password'
-                placeholder=''
-                onChange={onChangeHandler}
-                name='password'
-                value={password}
-              />
-            </Form.Group>
-            <Form.Group controlId='formGroupPassword'>
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control
-                type='password'
-                placeholder=''
-                onChange={onChangeHandler}
-                name='passwordCheck'
-                value={passwordCheck}
-              />
-            </Form.Group>
-            <Button type='submit' variant='primary'>
-              Submit
-            </Button>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+    <Row className='justify-content-center'>
+      <Col xs={10} md={8} lg={6} className={classes.Column}>
+        <p className={classes.FormTitle}>Welcome! Register</p>
+        <Form autoComplete='on' onSubmit={(e) => onSubmit(e)}>
+          <Form.Group controlId='formGroupEmail'>
+            <Form.Label>First Name</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder=''
+              onChange={onChangeHandler}
+              name='first'
+              value={first}
+            />
+          </Form.Group>
+          <Form.Group controlId='formGroupEmail'>
+            <Form.Label>Last Name</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder=''
+              onChange={onChangeHandler}
+              name='last'
+              value={last}
+            />
+          </Form.Group>
+          <Form.Group controlId='formGroupEmail'>
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder=''
+              onChange={onChangeHandler}
+              name='username'
+              value={username}
+            />
+          </Form.Group>
+          <Form.Group controlId='formGroupEmail'>
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type='email'
+              placeholder=''
+              onChange={onChangeHandler}
+              name='email'
+              value={email}
+            />
+          </Form.Group>
+          <Form.Group controlId='formGroupPassword'>
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type='password'
+              placeholder=''
+              onChange={onChangeHandler}
+              name='password'
+              value={password}
+            />
+          </Form.Group>
+          <Form.Group controlId='formGroupPassword'>
+            <Form.Label>Confirm Password</Form.Label>
+            <Form.Control
+              type='password'
+              placeholder=''
+              onChange={onChangeHandler}
+              name='passwordCheck'
+              value={passwordCheck}
+            />
+          </Form.Group>
+          <Button type='submit' variant='primary'>
+            Submit
+          </Button>
+        </Form>
+      </Col>
+    </Row>
   );
 }

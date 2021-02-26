@@ -6,12 +6,16 @@ import axios from 'axios';
 // -- TESTING -- //
 import AuthContext, { AuthContextProvider } from './contexts/authContext';
 
-//Material Ui
+//Bootstrap Styles
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 import Homepage from './Pages/homepage/homepage.component';
 import AuthDashboard from './Pages/auth/dashboardComponent';
 import Signup from './Pages/signup/Signup.component';
 import Login from './Pages/login/Login.Component';
+import NavigationBar from './components/navbar/Nav.component';
 
 function App() {
   // Define User Hook
@@ -60,14 +64,17 @@ function App() {
 
   return (
     <div className='App'>
-        <AuthContextProvider value={{ loggedIn, setLoggedIn }}>
+      <AuthContextProvider value={{ loggedIn, setLoggedIn }}>
+        <NavigationBar />
+        <Container>
           <Switch>
             <Route exact path='/' component={Homepage} />
             <Route exact path='/users' component={AuthDashboard} />
             <Route exact path='/signup' component={Signup} />
             <Route exact path='/login' component={Login} />
           </Switch>
-        </AuthContextProvider>
+        </Container>
+      </AuthContextProvider>
     </div>
   );
 }

@@ -12,6 +12,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import FormInput from '../../components/form-input/Form-Input.component';
 
 function Login(props) {
   // Bring in the User Context so we can update on submission
@@ -25,6 +26,12 @@ function Login(props) {
     password: '',
     passwordCheck: '',
   });
+  const [formErrors, setFormErrors] = useState({
+    email: '',
+    password: '',
+    passwordCheck: '',
+    resError: '',
+  });
 
   const { email, password, passwordCheck } = formData;
 
@@ -34,14 +41,27 @@ function Login(props) {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
+    setFormErrors({
+      formErrors,
+      resError: '',
+    });
     // Validation
-    if (password === '' || passwordCheck === '') {
-      console.log('Missing form information');
-      return;
-    }
+    // if (password === '' || passwordCheck === '') {
+    //   setFormErrors({
+    //     ...formErrors,
+    //     password: 'Missing form information',
+    //     passwordCheck: 'Missing form information',
+    //   });
+    //   console.log('Missing form information');
+    //   return;
+    // }
     if (password !== passwordCheck) {
-      console.error('Passwords do not Match');
+      setFormErrors({
+        ...formErrors,
+        password: 'Passwords do not Match',
+        passwordCheck: 'Passwords do not Match',
+      });
+      return;
     }
 
     //-- Send to Server Route
@@ -67,51 +87,69 @@ function Login(props) {
         email: '',
         password: '',
         passwordCheck: '',
+        resError: '',
       });
 
       // Redirect to Another Component
       history.push('/users');
     } catch (err) {
-      console.log(err);
+      setFormErrors({
+        email: '',
+        password: '',
+        passwordCheck: '',
+        resError: err.response.data.msg,
+      });
     }
   };
 
   return (
     <Container className={`${classes.formContainer} `}>
       <Row className='justify-content-center'>
-        <Col xs={10} md={8} lg={6} className={classes.Column}>
+        <Col xs={10} md={8} lg={6} className={`${classes.Column} `}>
           <p className={classes.FormTitle}>Welcome Back!</p>
+
+          {formErrors.resError ? (
+            <p className={classes.FormError}>{formErrors.resError}</p>
+          ) : null}
+
           <Form autoComplete='on' onSubmit={onSubmit}>
-            <Form.Group controlId='formGroupEmail'>
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type='email'
-                placeholder=''
-                onChange={onChangeHandler}
-                name='email'
-                value={email}
-              />
-            </Form.Group>
-            <Form.Group controlId='formGroupPassword'>
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type='password'
-                placeholder=''
-                onChange={onChangeHandler}
-                name='password'
-                value={password}
-              />
-            </Form.Group>
-            <Form.Group controlId='formGroupPassword'>
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control
-                type='password'
-                placeholder=''
-                onChange={onChangeHandler}
-                name='passwordCheck'
-                value={passwordCheck}
-              />
-            </Form.Group>
+            <FormInput
+              controlId='formGroupEmail'
+              label='Email'
+              type='email'
+              placeholder=''
+              onChangeHandler={onChangeHandler}
+              name='email'
+              value={email}
+              errMessage={formErrors.password}
+              required
+            />
+
+            <FormInput
+              controlId='formGroupPassword'
+              label='Password'
+              type='password'
+              placeholder=''
+              onChangeHandler={onChangeHandler}
+              name='password'
+              value={password}
+              errMessage={formErrors.password}
+              isInvalid={formErrors.password}
+              required
+            />
+
+            <FormInput
+              controlId='formGroupPasswordCheck'
+              label='Confirm Password'
+              type='password'
+              placeholder=''
+              onChangeHandler={onChangeHandler}
+              name='passwordCheck'
+              errMessage={formErrors.passwordCheck}
+              isInvalid={formErrors.passwordCheck}
+              required
+            />
+
             <Button type='submit' variant='primary'>
               Submit
             </Button>

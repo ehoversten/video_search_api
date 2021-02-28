@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
+
 
 //contexts
 import AuthContext from './../../contexts/authContext';
@@ -19,26 +19,32 @@ export default function NavigationBar() {
   return (
     <Navbar collapseOnSelect expand='lg' bg='light' variant='light'>
       <Container>
-        <NavLink
-          to='/'
-          exact
-          className=' navbar-brand'
-          activeClassName='router-link-exact-active'
-        >
+        <NavLink to='/' exact className=' navbar-brand' activeClassName=''>
           Video Search!
         </NavLink>
         <Navbar.Toggle aria-controls='responsive-navbar-nav' />
         <Navbar.Collapse id='responsive-navbar-nav'>
           <Nav className='mr-auto'>
-            <Nav.Link href='#features'>Previous Searches</Nav.Link>
-            <Nav.Link href='#pricing'>Search</Nav.Link>
+            <NavLink
+              to='/search-history'
+              exact
+              className='nav-link'
+              activeClassName='active-nav-link'
+            >
+              Previous searches
+            </NavLink>
+            <NavLink
+              to='/search'
+              exact
+              className='nav-link'
+              activeClassName='active-nav-link'
+            >
+              Search
+            </NavLink>
           </Nav>
           <Nav>
             {/* auth component */}
             <>{loggedIn ? <LogoutButton /> : <LoginButton />}</>
-            <Nav.Link eventKey={2} href='#memes'>
-              Dank memes
-            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

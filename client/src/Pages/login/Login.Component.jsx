@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import AuthContext from '../../contexts/authContext';
 
@@ -106,10 +106,10 @@ function Login(props) {
     <Container className={`${classes.formContainer} `}>
       <Row className='justify-content-center'>
         <Col xs={10} md={8} lg={6} className={`${classes.Column} `}>
-          <p className={classes.FormTitle}>Welcome Back!</p>
+          <p className={classes.formTitle}>Welcome Back!</p>
 
           {formErrors.resError ? (
-            <p className={classes.FormError}>{formErrors.resError}</p>
+            <p className={classes.formError}>{formErrors.resError}</p>
           ) : null}
 
           <Form autoComplete='on' onSubmit={onSubmit}>
@@ -150,9 +150,17 @@ function Login(props) {
               required
             />
 
-            <Button type='submit' variant='primary'>
+            <Button
+              type='submit'
+              variant='primary'
+              className={classes.submitBtn}
+            >
               Submit
             </Button>
+
+            <div className={classes.linkDiv}>
+              <p>Not signed up? Register </p> <Link to='/signup'>here</Link>
+            </div>
           </Form>
         </Col>
       </Row>

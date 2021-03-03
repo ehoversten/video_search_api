@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import AuthContext from '../../contexts/authContext';
 
 import axios from 'axios';
@@ -107,7 +107,7 @@ export default function SignUp() {
   };
 
   return (
-    <Row className='justify-content-center'>
+    <Row className={` justify-content-center ${classes.formContainer}`}>
       <Col xs={10} md={8} lg={6} className={classes.Column}>
         <p className={classes.FormTitle}>Welcome! Register</p>
         <Form autoComplete='on' onSubmit={(e) => onSubmit(e)}>
@@ -171,9 +171,12 @@ export default function SignUp() {
               value={passwordCheck}
             />
           </Form.Group>
-          <Button type='submit' variant='primary'>
+          <Button type='submit' variant='primary' className={classes.submitBtn}>
             Submit
           </Button>
+          <div className={classes.linkDiv}>
+            <p>Already have an account? </p> <Link to='/login'>Login</Link>
+          </div>
         </Form>
       </Col>
     </Row>

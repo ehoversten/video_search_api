@@ -16,6 +16,7 @@ import AuthDashboard from './Pages/auth/dashboardComponent';
 import Signup from './Pages/signup/Signup.component';
 import Login from './Pages/login/Login.Component';
 import NavigationBar from './components/navbar/Nav.component';
+import SearchContainer from './Pages/search/SearchContainer';
 
 function App() {
   // Define User Hook
@@ -72,6 +73,7 @@ function App() {
             <Route exact path='/users' component={AuthDashboard} />
             <Route exact path='/signup' component={Signup} />
             <Route exact path='/login' component={Login} />
+            <Route exact path='/search' component={SearchContainer} />
           </Switch>
         </Container>
       </AuthContextProvider>

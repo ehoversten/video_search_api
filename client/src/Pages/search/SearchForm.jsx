@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
+
+// -- TESTING -- //
+import VideoContext from '../../contexts/videoContext';
 
 function SearchForm(props) {
 
     console.log(props);
     const [query, setQuery] = useState('');
-    // const [videoData, setVideoData] = useState([])
+    const {videos, setVideos} = useContext(VideoContext)
 
     async function submit(e) {
         e.preventDefault();
@@ -15,7 +18,9 @@ function SearchForm(props) {
         let data = await axios.post('/api/', {query} )
 
         // console.log(data.data.items);
+        setVideos(data.data.items);
         props.setData(data.data.items);
+
         setQuery('');
     }
 

@@ -5,6 +5,7 @@ import axios from 'axios';
 
 // -- TESTING -- //
 import AuthContext, { AuthContextProvider } from './contexts/authContext';
+import VideoContext, { VideoContextProvider } from './contexts/videoContext';
 
 //Bootstrap Styles
 import Container from 'react-bootstrap/Container';
@@ -16,6 +17,8 @@ import AuthDashboard from './Pages/auth/dashboardComponent';
 import Signup from './Pages/signup/Signup.component';
 import Login from './Pages/login/Login.Component';
 import NavigationBar from './components/navbar/Nav.component';
+import SearchContainer from './Pages/search/SearchContainer';
+import SearchDetail from './Pages/search/Detail';
 
 function App() {
   // Define User Hook
@@ -65,15 +68,19 @@ function App() {
   return (
     <div className='App'>
       <AuthContextProvider value={{ loggedIn, setLoggedIn }}>
-        <NavigationBar />
-        <Container>
-          <Switch>
-            <Route exact path='/' component={Homepage} />
-            <Route exact path='/users' component={AuthDashboard} />
-            <Route exact path='/signup' component={Signup} />
-            <Route exact path='/login' component={Login} />
-          </Switch>
-        </Container>
+        <VideoContextProvider >
+          <NavigationBar />
+          <Container>
+            <Switch>
+              <Route exact path='/' component={Homepage} />
+              <Route exact path='/users' component={AuthDashboard} />
+              <Route exact path='/signup' component={Signup} />
+              <Route exact path='/login' component={Login} />
+              <Route exact path='/search/:id' component={SearchDetail} />
+              <Route exact path='/search' component={SearchContainer} />
+            </Switch>
+          </Container>
+        </VideoContextProvider>
       </AuthContextProvider>
     </div>
   );

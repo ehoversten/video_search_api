@@ -5,27 +5,32 @@ import axios from 'axios';
 const AuthContext = createContext();
 
 function AuthContextProvider(props) {
-    const [loggedIn, setLoggedIn] = useState(undefined);
+  const [loggedIn, setLoggedIn] = useState(undefined);
 
-    const getLocalAuthInfo=()=>{
-        const localExpiryAt=localStorage.getItem('expiresAt')
+  const getLocalAuthInfo = () => {
+    const localExpiryAt = localStorage.getItem('expiresAt');
+  };
+
+  async function getLoggedIn() {
+    try {
+      const loggedInRes = await axios.get('/users/verify-token');
+      console.log(`User logged in: ${loggedInRes.data}`);
+      setLoggedIn(loggedInRes.data);
+    } catch (error) {
+      console.log('getLoggedIn Error', error);
+      setLoggedIn(false);
     }
+  }
 
-    async function getLoggedIn() {
-        const loggedInRes = await axios.get('/users/verify-token');
-        console.log(`User logged in: ${loggedInRes.data}`);
-        setLoggedIn(loggedInRes.data);
-    }
+  useEffect(() => {
+    getLoggedIn();
+  }, []);
 
-    useEffect(() => {
-        getLoggedIn();
-    }, []);
-
-    return (
-        <AuthContext.Provider value={{ loggedIn, getLoggedIn }}>
-            { props.children }
-        </AuthContext.Provider>
-    )
+  return (
+    <AuthContext.Provider value={{ loggedIn, getLoggedIn }}>
+      {props.children}
+    </AuthContext.Provider>
+  );
 }
 
 export default AuthContext;

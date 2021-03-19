@@ -17,7 +17,7 @@ import LogoutButton from './../Logout-Button/Logout-Button.component';
 export default function NavigationBar() {
   const { loggedIn, setLoggedIn } = useContext(AuthContext);
   return (
-    <Navbar collapseOnSelect expand='lg' bg='light' variant='light'>
+    <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>
       <Container>
         <NavLink to='/' exact className=' navbar-brand' activeClassName=''>
           Video Search!

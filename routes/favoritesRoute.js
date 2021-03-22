@@ -4,7 +4,7 @@ const { isAuthorized } = require('../utils/auth');
 const Favorite = require('../models/Favorites');
 const User = require('../models/User');
 
-router.get('/', async (req, res) => {
+router.get('/', isAuthorized, async (req, res) => {
   try {
     const favorites = await Favorite.find({})
       .populate('addedBy')

@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import VideoContext from '../../contexts/videoContext';
 import { useHistory } from 'react-router-dom';
 
+import Favorite from '../favorites/favorite.component';
+
 function Detail({ match }) {
   const { videos } = useContext(VideoContext);
   const [currentVideo, setCurrentVideo] = useState(null);
@@ -53,7 +55,8 @@ function Detail({ match }) {
                   onClick={onClickHandler}
                 >
                   Go back
-                </Button>{' '}
+                </Button>
+                <Favorite video={currentVideo} />{' '}
               </>
             ) : (
               <>

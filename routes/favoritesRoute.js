@@ -18,10 +18,20 @@ router.get('/', isAuthorized, async (req, res) => {
 });
 
 router.post('/create', isAuthorized, async (req, res) => {
-  // console.log(req.body);
+  console.log("Hit Create Server Route");
+  console.log(req.body);
   try {
-    const { video_id, video_url, video_title, video_channel, video_description, video_published, video_img } = req.body;
+    // const { video_id, video_url, video_title, video_channel, video_description, video_published, video_img } = req.body;
     
+    let temp = {
+      video_id: req.body.id.videoId,
+      video_url: req.body.id.videoId,
+      video_title: req.body.snippet.title,
+      video_channel: req.body.snippet.channelTitle,
+      video_description: req.body.snippet.description,
+      video_published: req.body.snippet.publishTime,
+      video_img: req.body.snippet.thumbnails.high.url
+    }
     
     // Add Validation
     // if (!title) {
@@ -30,7 +40,7 @@ router.post('/create', isAuthorized, async (req, res) => {
       
       // Make sure Item doesn't already exist in DB 
       const foundFavoriteItem = await Favorite.findOne({
-        video_id: req.body.video_id,
+        video_id: req.body.id.videoId,
       });
       
       if (foundFavoriteItem) {
@@ -46,11 +56,13 @@ router.post('/create', isAuthorized, async (req, res) => {
         });
       }
       
-      const newFavoriteItem = new Favorite(req.body);
+      const newFavoriteItem = new Favorite(temp);
       console.log(typeof newFavoriteItem);
       console.log(newFavoriteItem);
+      console.log("Favorite Created");
       // // Save Item to DB
       const savedFavoriteItem = await newFavoriteItem.save();
+      console.log("Saved favorite");
       console.log(savedFavoriteItem);
       // -- Grab User -- //
       const id = req.user;

@@ -26,12 +26,12 @@ export default function NavigationBar() {
         <Navbar.Collapse id='responsive-navbar-nav'>
           <Nav className='mr-auto'>
             <NavLink
-              to='/search-history'
+              to='/favorites'
               exact
               className='nav-link'
               activeClassName='active-nav-link'
             >
-              Previous searches
+              Favorites
             </NavLink>
             <NavLink
               to='/search'

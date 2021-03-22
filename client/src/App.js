@@ -20,6 +20,7 @@ import NavigationBar from './components/navbar/Nav.component';
 import SearchContainer from './Pages/search/SearchContainer';
 import Detail from './components/detail/detail.component';
 import { SearchContextProvider } from './contexts/searchHistoryContext';
+import FavoritesList from './components/favorites/favorites-list.component';
 
 function App() {
   // Define User Hook
@@ -32,38 +33,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(undefined);
 
   useEffect(() => {
-    // Define an ASYNC function to check for Token
-    // const isLoggedIn = async () => {
-    //   let token = await localStorage.getItem("x-auth-token");
-    //   console.log(`Token is: ${token}`);
-    //   if(token === null) {
-    //     localStorage.setItem('x-auth-token', '');
-    //     console.log('setting empty token in local storage')
-    //     token = '';
-    //   }
-    //   let tokenRes = await axios.post("/users/verify-token", null,
-    //     {
-    //       headers: { 'x-auth-token': token }
-    //     });
-    //   console.log(`Verify Token: ${tokenRes}`);
-    //   console.log(`Verify Token: ${tokenRes.data}`);
-    //   if(tokenRes.data) {
-    //     const userRes = await axios.get("/users", { headers: { 'x-auth-token': token }
-    //     })
-    //     // const userRes = await axios.get("http://localhost:3001/users/", { headers: { 'x-auth-token': token }
-    //     // })
-    //     console.log("Updating User");
-    //     // Update User State
-    //     setUserData({
-    //       token: token,
-    //       user: userRes.data
-    //     });
-    //   } else {
-    //     console.log("No Token Data");
-    //   }
-    // };
-    // // Invoke Function
-    // isLoggedIn();
+
   }, []);
 
   return (
@@ -80,6 +50,8 @@ function App() {
                 <Route exact path='/login' component={Login} />
                 <Route exact path='/search/:id' component={Detail} />
                 <Route exact path='/search' component={SearchContainer} />
+                <Route exact path='/favorites/:id' component={Detail} />
+                <Route exact path='/favorites' component={FavoritesList} />
               </Switch>
             </Container>
           </SearchContextProvider>

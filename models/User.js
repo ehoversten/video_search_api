@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+// const Favorite = require('./Favorites');
 
 const Schema = mongoose.Schema;
 
@@ -27,7 +28,13 @@ const UserSchema = new Schema({
         type: String,
         required: "Password is Required",
         minlength: 5
-    }
+    },
+    user_favorites: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Favorite'
+        }
+    ]
 });
 
 const User = mongoose.model("User", UserSchema);

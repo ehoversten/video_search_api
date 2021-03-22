@@ -180,7 +180,8 @@ router.get('/verify-token', async (req, res) => {
 // -- TESTING -- //
 router.get('/admin', async (req, res) => {
   try {
-    let users = await User.find({});
+    // let users = await User.find({});
+    let users = await User.find({}).populate('user_favorites');
     res.status(200).json(users);
   } catch (err) {
     console.log(err);

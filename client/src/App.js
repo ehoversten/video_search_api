@@ -21,6 +21,7 @@ import SearchContainer from './Pages/search/SearchContainer';
 import Detail from './components/detail/detail.component';
 import { SearchContextProvider } from './contexts/searchHistoryContext';
 import FavoritesList from './components/favorites/favorites-list.component';
+import FavoriteDetail from './components/favorites/favorites.detail.component'
 
 function App() {
   // Define User Hook
@@ -50,7 +51,7 @@ function App() {
                 <Route exact path='/login' component={Login} />
                 <Route exact path='/search/:id' component={Detail} />
                 <Route exact path='/search' component={SearchContainer} />
-                <Route exact path='/favorites/:id' component={Detail} />
+                <Route exact path='/favorites/:id' component={FavoriteDetail} />
                 <Route exact path='/favorites' component={FavoritesList} />
               </Switch>
             </Container>

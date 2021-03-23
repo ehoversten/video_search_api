@@ -79,29 +79,39 @@ router.post('/create', isAuthorized, async (req, res) => {
   }
 });
 
-router.put('/:favorite_id', isAuthorized, async (req, res) => {
-  try {
-    const id = req.params.favorite_id || req.body.favorite_id;
-    const { title } = req.body;
-    if (!title) {
-      return res.status(400).json({ msg: 'Title is required' });
-    }
-    const favoriteItem = await Favorite.findByIdAndUpdate(id, req.body, {
-      new: true,
-    });
+// router.put('/:favorite_id', isAuthorized, async (req, res) => {
+//   try {
+//     const id = req.params.favorite_id || req.body.favorite_id;
+//     const { title } = req.body;
+//     if (!title) {
+//       return res.status(400).json({ msg: 'Title is required' });
+//     }
+//     const favoriteItem = await Favorite.findByIdAndUpdate(id, req.body, {
+//       new: true,
+//     });
 
-    let savedFavoriteItem = await favoriteItem.save();
-    return res.status(200).json({ favorite: savedFavoriteItem });
-  } catch (err) {
-    let message = 'Could not complete request';
-    return res.status(500).json({ error: message, err });
-  }
-});
+//     let savedFavoriteItem = await favoriteItem.save();
+//     return res.status(200).json({ favorite: savedFavoriteItem });
+//   } catch (err) {
+//     let message = 'Could not complete request';
+//     return res.status(500).json({ error: message, err });
+//   }
+// });
 
 router.delete('/:favorite_id', isAuthorized, async (req, res) => {
   try {
     const id = req.params.favorite_id || req.body.favorite_id;
-    const foundFavoriteItem = await Favorite.findByIdAndDelete(id);
+    console.log("Hit Delete Server Route");
+    console.log(id);
+    // const foundFavoriteItem = await Favorite.findOneAndDelete({ video_id:id });
+    const foundFavoriteItem = await Favorite.findOne({ video_id:id });
+    console.log(foundFavoriteItem);
+
+    // Query User 
+    console.log(req.user)
+    let user = await User.findByIdAndUpdate({ _id: req.user }, { $pull: { user_favorites: foundFavoriteItem._id }});
+    console.log(user);
+
     return res
       .status(200)
       .json({ msg: 'Deleted', favorite: foundFavoriteItem });

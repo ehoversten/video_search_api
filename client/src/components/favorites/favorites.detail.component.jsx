@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-// import VideoContext from '../../contexts/videoContext';
+import Favorite from './favorite.component';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
-function Detail({ match }) {
-//   const { videos } = useContext(VideoContext);
+function FavoriteDetail({ match }) {
   const [currentVideo, setCurrentVideo] = useState(null);
   const history = useHistory();
 
@@ -14,12 +14,15 @@ function Detail({ match }) {
   }, []);
 
   function onClickHandler() {
-    history.goBack();
+    // history.goBack();
   }
 
   const getVideo = async () => {
     console.log(`Match: ${match.params.id}`);
-    let vid = videos.filter((video) => video.id.videoId === match.params.id);
+    let favs = await axios.get('/favorites');
+    console.log(favs.data);
+    let vid = favs.data.filter(vid => vid.video_id === match.params.id )
+    console.log(vid);
     setCurrentVideo(...vid);
   };
 
@@ -32,28 +35,29 @@ function Detail({ match }) {
             {currentVideo ? (
               <>
                 <iframe
-                  title={currentVideo.snippet.title}
+                  title={currentVideo.video_title}
                   width='100%'
                   height='400px'
-                  src={`https://www.youtube.com/embed/${currentVideo.id.videoId}`}
+                  src={`https://www.youtube.com/embed/${currentVideo.video_id}`}
                   frameBorder='0'
                   allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                   allowFullScreen
                 ></iframe>
                 <Card.Title>
-                  Video Title: {currentVideo.snippet.title}
+                  Video Title: {currentVideo.video_title}
                 </Card.Title>
                 <Card.Text>
-                  <p>Video by: {currentVideo.snippet.channelTitle}</p>
-                  <p className='mt-2'>{currentVideo.snippet.description}</p>
+                  <p>Video by: {currentVideo.video_channel}</p>
+                  <p className='mt-2'>{currentVideo.video_description}</p>
                 </Card.Text>
                 <Button
                   variant='secondary'
                   className='d-block ml-auto'
                   onClick={onClickHandler}
                 >
-                  Go back
-                </Button>{' '}
+                  Remove
+                </Button>
+                <Favorite video={currentVideo}/>{' '}
               </>
             ) : (
               <>
@@ -70,4 +74,4 @@ function Detail({ match }) {
   );
 }
 
-export default Detail;
+export default FavoriteDetail;

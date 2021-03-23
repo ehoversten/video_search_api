@@ -4,7 +4,7 @@ const { isAuthorized } = require('../utils/auth');
 const Favorite = require('../models/Favorites');
 const User = require('../models/User');
 
-router.get('/', async (req, res) => {
+router.get('/', isAuthorized, async (req, res) => {
   try {
     const favorites = await Favorite.find({})
       .populate('addedBy')
@@ -18,10 +18,20 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/create', isAuthorized, async (req, res) => {
-  // console.log(req.body);
+  console.log("Hit Create Server Route");
+  console.log(req.body);
   try {
-    const { video_id, video_url, video_title, video_channel, video_description, video_published, video_img } = req.body;
+    // const { video_id, video_url, video_title, video_channel, video_description, video_published, video_img } = req.body;
     
+    let temp = {
+      video_id: req.body.id.videoId,
+      video_url: req.body.id.videoId,
+      video_title: req.body.snippet.title,
+      video_channel: req.body.snippet.channelTitle,
+      video_description: req.body.snippet.description,
+      video_published: req.body.snippet.publishTime,
+      video_img: req.body.snippet.thumbnails.high.url
+    }
     
     // Add Validation
     // if (!title) {
@@ -30,7 +40,7 @@ router.post('/create', isAuthorized, async (req, res) => {
       
       // Make sure Item doesn't already exist in DB 
       const foundFavoriteItem = await Favorite.findOne({
-        video_id: req.body.video_id,
+        video_id: req.body.id.videoId,
       });
       
       if (foundFavoriteItem) {
@@ -46,11 +56,13 @@ router.post('/create', isAuthorized, async (req, res) => {
         });
       }
       
-      const newFavoriteItem = new Favorite(req.body);
+      const newFavoriteItem = new Favorite(temp);
       console.log(typeof newFavoriteItem);
       console.log(newFavoriteItem);
+      console.log("Favorite Created");
       // // Save Item to DB
       const savedFavoriteItem = await newFavoriteItem.save();
+      console.log("Saved favorite");
       console.log(savedFavoriteItem);
       // -- Grab User -- //
       const id = req.user;
@@ -67,29 +79,39 @@ router.post('/create', isAuthorized, async (req, res) => {
   }
 });
 
-router.put('/:favorite_id', isAuthorized, async (req, res) => {
-  try {
-    const id = req.params.favorite_id || req.body.favorite_id;
-    const { title } = req.body;
-    if (!title) {
-      return res.status(400).json({ msg: 'Title is required' });
-    }
-    const favoriteItem = await Favorite.findByIdAndUpdate(id, req.body, {
-      new: true,
-    });
+// router.put('/:favorite_id', isAuthorized, async (req, res) => {
+//   try {
+//     const id = req.params.favorite_id || req.body.favorite_id;
+//     const { title } = req.body;
+//     if (!title) {
+//       return res.status(400).json({ msg: 'Title is required' });
+//     }
+//     const favoriteItem = await Favorite.findByIdAndUpdate(id, req.body, {
+//       new: true,
+//     });
 
-    let savedFavoriteItem = await favoriteItem.save();
-    return res.status(200).json({ favorite: savedFavoriteItem });
-  } catch (err) {
-    let message = 'Could not complete request';
-    return res.status(500).json({ error: message, err });
-  }
-});
+//     let savedFavoriteItem = await favoriteItem.save();
+//     return res.status(200).json({ favorite: savedFavoriteItem });
+//   } catch (err) {
+//     let message = 'Could not complete request';
+//     return res.status(500).json({ error: message, err });
+//   }
+// });
 
 router.delete('/:favorite_id', isAuthorized, async (req, res) => {
   try {
     const id = req.params.favorite_id || req.body.favorite_id;
-    const foundFavoriteItem = await Favorite.findByIdAndDelete(id);
+    console.log("Hit Delete Server Route");
+    console.log(id);
+    // const foundFavoriteItem = await Favorite.findOneAndDelete({ video_id:id });
+    const foundFavoriteItem = await Favorite.findOne({ video_id:id });
+    console.log(foundFavoriteItem);
+
+    // Query User 
+    console.log(req.user)
+    let user = await User.findByIdAndUpdate({ _id: req.user }, { $pull: { user_favorites: foundFavoriteItem._id }});
+    console.log(user);
+
     return res
       .status(200)
       .json({ msg: 'Deleted', favorite: foundFavoriteItem });

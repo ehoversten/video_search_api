@@ -1,6 +1,4 @@
 import { useState, createContext } from 'react';
-import axios from 'axios';
-
 
 const VideoContext = createContext();
 

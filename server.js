@@ -8,6 +8,7 @@ const searchAPI = require('./utils/API');
 const user_routes = require('./routes/userRoutes');
 const favorite_routes = require('./routes/favoritesRoute');
 const api_routes = require('./routes/apiRoutes');
+const  morgan = require('morgan')
 
 const app = express();
 app.use(cors());
@@ -38,6 +39,7 @@ mongoose.connection.on('connected', () => {
 app.use(express.urlencoded({ extended: false })); //Do we need this one still? We can do extended false on express.json
 app.use(express.json());
 app.use(cookieParser());
+app.use(morgan('dev'))
 
 // -- ROUTES -- //
 app.get('/', (req, res) => {

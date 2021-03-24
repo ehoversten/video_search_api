@@ -16,9 +16,7 @@ export default function FavoritePreview({ video }) {
     video_channel,
     video_url
   } = video;
-  let id = video.video_id;
-  const queryParams = `?auth=${video_title}&videoId=${id}&channelTitle="${video_channel}"`;
-
+  let id = video._id;
   return (
     <Col xs={12} md={6} lg={4} className="">
       <Card className='h-100'>
@@ -33,7 +31,6 @@ export default function FavoritePreview({ video }) {
           <Link
             to={{
               pathname: `/favorites/${id}`,
-              search: '?sort=name',
             }}
             className='btn btn-primary btn-block mt-auto'
           >

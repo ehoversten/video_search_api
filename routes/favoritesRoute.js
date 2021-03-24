@@ -6,8 +6,7 @@ const User = require('../models/User');
 
 router.get('/', isAuthorized, async (req, res) => {
   try {
-    const favorites = await Favorite.find({})
-      .populate('addedBy')
+    const favorites = await Favorite.find({}).populate('addedBy');
     res.status(200).json(favorites);
     // res.status(200).json({ msg: 'Base Favorite Route'});
   } catch (err) {
@@ -17,12 +16,24 @@ router.get('/', isAuthorized, async (req, res) => {
   }
 });
 
+router.get('/:favorite_id', isAuthorized, async (req, res) => {
+  try {
+    const id = req.params.favorite_id;
+    const foundFavoriteVideo = await Favorite.findById(id).exec();
+    return res.status(200).json({ favorite: foundFavoriteVideo });
+  } catch (err) {
+    console.log(err.stack);
+    const errMsg = err.stack;
+    let message = 'Could not complete request';
+    return res.status(500).json({ error: message, errMsg, err });
+  }
+});
+
 router.post('/create', isAuthorized, async (req, res) => {
-  console.log("Hit Create Server Route");
   console.log(req.body);
   try {
     // const { video_id, video_url, video_title, video_channel, video_description, video_published, video_img } = req.body;
-    
+
     let temp = {
       video_id: req.body.id.videoId,
       video_url: req.body.id.videoId,
@@ -30,45 +41,48 @@ router.post('/create', isAuthorized, async (req, res) => {
       video_channel: req.body.snippet.channelTitle,
       video_description: req.body.snippet.description,
       video_published: req.body.snippet.publishTime,
-      video_img: req.body.snippet.thumbnails.high.url
-    }
-    
+      video_img: req.body.snippet.thumbnails.high.url,
+    };
+
     // Add Validation
     // if (!title) {
-      //   res.status(400).json({ msg: 'Required field(s) missing' });
-      // }
-      
-      // Make sure Item doesn't already exist in DB 
-      const foundFavoriteItem = await Favorite.findOne({
-        video_id: req.body.id.videoId,
-      });
-      
-      if (foundFavoriteItem) {
-        // // console.log(foundFavoriteItem);
-        // const id = req.user;
-        // // console.log(id);
-        // const currentUser = await User.findByIdAndUpdate({ _id: id }, { $push: { user_favorites: foundFavoriteItem._id }})
-        // console.log(currentUser);
+    //   res.status(400).json({ msg: 'Required field(s) missing' });
+    // }
 
-        return res.status(400).json({
-          message: 'Item under that name already exists',
-          data: foundFavoriteItem,
-        });
-      }
-      
-      const newFavoriteItem = new Favorite(temp);
-      console.log(typeof newFavoriteItem);
-      console.log(newFavoriteItem);
-      console.log("Favorite Created");
-      // // Save Item to DB
-      const savedFavoriteItem = await newFavoriteItem.save();
-      console.log("Saved favorite");
-      console.log(savedFavoriteItem);
-      // -- Grab User -- //
-      const id = req.user;
-      console.log(id);
-      const currentUser = await User.findByIdAndUpdate({ _id: id }, { $push: { user_favorites: savedFavoriteItem._id }});
-      console.log(currentUser);
+    // Make sure Item doesn't already exist in DB
+    const foundFavoriteItem = await Favorite.findOne({
+      video_id: req.body.id.videoId,
+    });
+
+    if (foundFavoriteItem) {
+      // // console.log(foundFavoriteItem);
+      // const id = req.user;
+      // // console.log(id);
+      // const currentUser = await User.findByIdAndUpdate({ _id: id }, { $push: { user_favorites: foundFavoriteItem._id }})
+      // console.log(currentUser);
+
+      return res.status(400).json({
+        message: 'Item under that name already exists',
+        data: foundFavoriteItem,
+      });
+    }
+
+    const newFavoriteItem = new Favorite(temp);
+    console.log(typeof newFavoriteItem);
+    console.log(newFavoriteItem);
+    console.log('Favorite Created');
+    // // Save Item to DB
+    const savedFavoriteItem = await newFavoriteItem.save();
+    console.log('Saved favorite');
+    console.log(savedFavoriteItem);
+    // -- Grab User -- //
+    const id = req.user;
+    console.log(id);
+    const currentUser = await User.findByIdAndUpdate(
+      { _id: id },
+      { $push: { user_favorites: savedFavoriteItem._id } }
+    );
+    console.log(currentUser);
 
     // let savingOp = await user.favorites.push(savedFavoriteItem._id); // returns length of array
 
@@ -101,15 +115,18 @@ router.post('/create', isAuthorized, async (req, res) => {
 router.delete('/:favorite_id', isAuthorized, async (req, res) => {
   try {
     const id = req.params.favorite_id || req.body.favorite_id;
-    console.log("Hit Delete Server Route");
+    console.log('Hit Delete Server Route');
     console.log(id);
     // const foundFavoriteItem = await Favorite.findOneAndDelete({ video_id:id });
-    const foundFavoriteItem = await Favorite.findOne({ video_id:id });
+    const foundFavoriteItem = await Favorite.findOne({ video_id: id });
     console.log(foundFavoriteItem);
 
-    // Query User 
-    console.log(req.user)
-    let user = await User.findByIdAndUpdate({ _id: req.user }, { $pull: { user_favorites: foundFavoriteItem._id }});
+    // Query User
+    console.log(req.user);
+    let user = await User.findByIdAndUpdate(
+      { _id: req.user },
+      { $pull: { user_favorites: foundFavoriteItem._id } }
+    );
     console.log(user);
 
     return res
@@ -122,5 +139,3 @@ router.delete('/:favorite_id', isAuthorized, async (req, res) => {
 });
 
 module.exports = router;
-
-

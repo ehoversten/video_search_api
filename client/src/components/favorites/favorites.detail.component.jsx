@@ -18,15 +18,12 @@ function FavoriteDetail({ match }) {
   }
 
   const getVideo = async () => {
-    console.log(`Match: ${match.params.id}`);
-    let favs = await axios.get('/favorites');
-    console.log(favs.data);
-    let vid = favs.data.filter(vid => vid.video_id === match.params.id )
-    console.log(vid);
-    setCurrentVideo(...vid);
+    let id = match.params.id;
+    let res = await axios.get(`/favorites/${id}`);
+    // let vid = favs.data.filter((vid) => vid.video_id === match.params.id);
+    setCurrentVideo(res.data.favorite);;
   };
 
-  console.log(currentVideo);
   return (
     <Row className='justify-content-center '>
       <Col md={12} lg={8} className='my-3'>
@@ -43,9 +40,7 @@ function FavoriteDetail({ match }) {
                   allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                   allowFullScreen
                 ></iframe>
-                <Card.Title>
-                  Video Title: {currentVideo.video_title}
-                </Card.Title>
+                <Card.Title>Video Title: {currentVideo.video_title}</Card.Title>
                 <Card.Text>
                   <p>Video by: {currentVideo.video_channel}</p>
                   <p className='mt-2'>{currentVideo.video_description}</p>
@@ -57,7 +52,7 @@ function FavoriteDetail({ match }) {
                 >
                   Remove
                 </Button>
-                <Favorite video={currentVideo}/>{' '}
+                <Favorite video={currentVideo} />{' '}
               </>
             ) : (
               <>

@@ -17,8 +17,7 @@ export default function ResultPreview({ video }) {
     publishTime,
   } = video.snippet;
   let id = video.id.videoId;
-  const queryParams = `?auth=${title}&videoId=${id}&channelTitle="${channelTitle}"`;
-
+  
   return (
     <Col xs={12} md={6} lg={4} className={classes.cardContainer}>
       <Card className='h-100'>
@@ -30,8 +29,8 @@ export default function ResultPreview({ video }) {
         <Card.Body className='d-flex flex-column'>
           <Card.Title>{title}</Card.Title>
           <Card.Text>{description}</Card.Text>
-          search: A string representation of query parameters. hash: A hash to
-          put in the URL, e.g. #a-hash. state: State to persist to the location.
+          {/* search: A string representation of query parameters. hash: A hash to
+          put in the URL, e.g. #a-hash. state: State to persist to the location. */}
           <Link
             to={{
               pathname: `/search/${id}`,

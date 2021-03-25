@@ -47,8 +47,10 @@ function Detail({ match }) {
                   Video Title: {currentVideo.snippet.title}
                 </Card.Title>
                 <Card.Text>
-                  <p>Video by: {currentVideo.snippet.channelTitle}</p>
-                  <p className='mt-2'>{currentVideo.snippet.description}</p>
+                  Video by: {currentVideo.snippet.channelTitle}
+                </Card.Text>
+                <Card.Text className='mt-2'>
+                  {currentVideo.snippet.description}
                 </Card.Text>
                 <Button
                   variant='secondary'
@@ -57,7 +59,7 @@ function Detail({ match }) {
                 >
                   Go back
                 </Button>
-                <Favorite video={currentVideo} className={classes.saveIcon} />{' '}
+                <Favorite video={currentVideo} className={classes.saveIcon} videoId="1" />{' '}
               </>
             ) : (
               <>

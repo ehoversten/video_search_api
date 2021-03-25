@@ -1,12 +1,27 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export default function Favorite(props) {
   // console.log(props);
 
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  
+  useEffect(() => {
+    const isFavorite = async () => {
+      try {
+        // let res = await axios.get(`/favorites/${props.video.video_id}`);
+        // setIsFavorite(true);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    isFavorite();
+    return () => {
+      //cleanup if needed
+    };
+  }, []);
+
   const addFavorite = async (e) => {
     // console.log(props.video)
     let fav = await axios.post('/favorites/create', props.video);

@@ -1,27 +1,33 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Row, Col, Card, Button } from 'react-bootstrap';
+
 import Favorite from './favorite.component';
-import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { useHistory } from 'react-router';
 
 function FavoriteDetail({ match }) {
   const [currentVideo, setCurrentVideo] = useState(null);
-  const history = useHistory();
+  let history = useHistory();
 
   useEffect(() => {
     getVideo();
   }, []);
 
-  function onClickHandler() {
-    // history.goBack();
+  async function onClickHandler() {
+    try {
+      let res = await axios.delete(`/favorites/${currentVideo._id}`);
+      console.log(res);
+      history.push("/search");
+    } catch (err) {
+      console.log('error!', err);
+    }
   }
 
   const getVideo = async () => {
     let id = match.params.id;
     let res = await axios.get(`/favorites/${id}`);
     // let vid = favs.data.filter((vid) => vid.video_id === match.params.id);
-    setCurrentVideo(res.data.favorite);;
+    setCurrentVideo(res.data.favorite);
   };
 
   return (
@@ -41,9 +47,9 @@ function FavoriteDetail({ match }) {
                   allowFullScreen
                 ></iframe>
                 <Card.Title>Video Title: {currentVideo.video_title}</Card.Title>
-                <Card.Text>
-                  <p>Video by: {currentVideo.video_channel}</p>
-                  <p className='mt-2'>{currentVideo.video_description}</p>
+                <Card.Text>Video by: {currentVideo.video_channel}</Card.Text>
+                <Card.Text className='mt-2'>
+                  {currentVideo.video_description}
                 </Card.Text>
                 <Button
                   variant='secondary'
@@ -52,7 +58,7 @@ function FavoriteDetail({ match }) {
                 >
                   Remove
                 </Button>
-                <Favorite video={currentVideo} />{' '}
+                {/* <Favorite video={currentVideo} />{' '} */}
               </>
             ) : (
               <>

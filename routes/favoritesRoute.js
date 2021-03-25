@@ -115,27 +115,31 @@ router.post('/create', isAuthorized, async (req, res) => {
 router.delete('/:favorite_id', isAuthorized, async (req, res) => {
   try {
     const id = req.params.favorite_id || req.body.favorite_id;
-    console.log('Hit Delete Server Route');
-    console.log(id);
-    // const foundFavoriteItem = await Favorite.findOneAndDelete({ video_id:id });
-    const foundFavoriteItem = await Favorite.findOne({ video_id: id });
-    console.log(foundFavoriteItem);
 
+    const foundFavoriteItem = await Favorite.findByIdAndDelete(id).exec();
     // Query User
     console.log(req.user);
-    let user = await User.findByIdAndUpdate(
-      { _id: req.user },
-      { $pull: { user_favorites: foundFavoriteItem._id } }
-    );
-    console.log(user);
 
-    return res
-      .status(200)
-      .json({ msg: 'Deleted', favorite: foundFavoriteItem });
+    const result = await User.findByIdAndUpdate(
+      req.user,
+      {
+        $pull: {
+          user_favorites: foundFavoriteItem._id,
+        },
+      },
+      { new: true }
+    ).exec();
+
+    if (result) console.log('results', result.user_favorites);
+
+    return res.status(200).json({ msg: 'Deleted', user: { result } });
+    // .json({ msg: 'Deleted', favorite: foundFavoriteItem, user: { result } });
   } catch (err) {
+    let errMsg = err.stack;
     let message = 'Could not complete request';
-    return res.status(500).json({ error: message, err });
+    return res.status(500).json({ error: message, err, errMsg });
   }
 });
 
 module.exports = router;
+// https://stackoverflow.com/questions/19786075/mongoose-deleting-pull-a-document-within-an-array-does-not-work-with-objectid

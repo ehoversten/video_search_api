@@ -3,9 +3,10 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import VideoContext from '../../contexts/videoContext';
 import { useHistory } from 'react-router-dom';
-
 import Favorite from '../favorites/favorite.component';
 
+// css
+import classes from './detail.module.css';
 function Detail({ match }) {
   const { videos } = useContext(VideoContext);
   const [currentVideo, setCurrentVideo] = useState(null);
@@ -27,7 +28,7 @@ function Detail({ match }) {
 
   console.log(currentVideo);
   return (
-    <Row className='justify-content-center '>
+    <Row className='justify-content-center video-detail '>
       <Col md={12} lg={8} className='my-3'>
         <Card style={{ width: '100%' }}>
           <Card.Body>
@@ -56,7 +57,7 @@ function Detail({ match }) {
                 >
                   Go back
                 </Button>
-                <Favorite video={currentVideo} />{' '}
+                <Favorite video={currentVideo} className={classes.saveIcon} />{' '}
               </>
             ) : (
               <>

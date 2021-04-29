@@ -22,14 +22,13 @@ A User Can:
 
 - Register
 - Login
-- Authorized User allowed to Save or Remove video from favorites list
+- Authorized User is allowed to Save or Remove a video from favorites list
 
 
 A Favorite Can:
 
-- Be Added
-- Be Removed
-- Be associated to to the logged in User
+- Be Added to the current Users favorites
+- Be Removed from the current Users favorites
 
 
 &nbsp;

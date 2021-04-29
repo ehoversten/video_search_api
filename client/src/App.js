@@ -4,8 +4,10 @@ import './App.css';
 import axios from 'axios';
 
 // -- TESTING -- //
+import UserContext, { UserProvider } from './contexts/userContext';
 import AuthContext, { AuthContextProvider } from './contexts/authContext';
 import VideoContext, { VideoContextProvider } from './contexts/videoContext';
+import { SearchContextProvider } from './contexts/searchHistoryContext';
 
 //Bootstrap Styles
 import Container from 'react-bootstrap/Container';
@@ -19,7 +21,6 @@ import Login from './Pages/login/Login.Component';
 import NavigationBar from './components/navbar/Nav.component';
 import SearchContainer from './Pages/search/SearchContainer';
 import Detail from './components/detail/detail.component';
-import { SearchContextProvider } from './contexts/searchHistoryContext';
 import FavoritesList from './components/favorites/favorites-list.component';
 import FavoriteDetail from './components/favorites/favorites.detail.component'
 
@@ -42,7 +43,7 @@ function App() {
       <AuthContextProvider value={{ loggedIn, setLoggedIn }}>
         <VideoContextProvider>
           <SearchContextProvider>
-            <NavigationBar />
+            <NavigationBar user={userData}/>
             <Container>
               <Switch>
                 <Route exact path='/' component={Homepage} />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import AuthContext from '../../contexts/authContext';
 
 function DashboardComponent(props) {
@@ -13,14 +13,10 @@ function DashboardComponent(props) {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+
       })
       .catch((err) => console.log(err));
 
-    // if(!userData.user) {
-    //     history.push('/login');
-    // }  else {
-    //     setIsLoggedIn(true);d
-    // }
   }, []);
 
   return loggedIn ? (
@@ -28,7 +24,7 @@ function DashboardComponent(props) {
       <h1>Welcome Auth Dashboard User is authenticated</h1>
     </>
   ) : (
-    <h1>Welcome Auth Dash not Authenticated</h1>
+    <Redirect to={{ pathname: '/login'}} />
   );
 }
 

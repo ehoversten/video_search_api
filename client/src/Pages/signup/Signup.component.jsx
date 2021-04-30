@@ -97,7 +97,8 @@ export default function SignUp() {
         passwordCheck: '',
       });
 
-      history.push('/users');
+      // history.push('/users');
+      history.push('/favorites');
       //-- Update toDashboard State
       // alert('Finished!');
     } catch (err) {

@@ -17,7 +17,7 @@ function FavoriteDetail({ match }) {
     try {
       let res = await axios.delete(`/favorites/${currentVideo._id}`);
       console.log(res);
-      history.push("/search");
+      history.push('/favorites');
     } catch (err) {
       console.log('error!', err);
     }

@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { Redirect } from 'react-router-dom';
+import AuthContext from '../../contexts/authContext';
 import axios from 'axios';
 
 // Bootstrap Styles
@@ -11,7 +13,9 @@ import FavoritePreview from './favorites-preview.component';
 
 export default function FavoritesList() {
 
+    const { loggedIn } = useContext(AuthContext);
     const [current, setCurrent] = useState([]);
+    const [currentUser, setCurrentUser] = useState({});
 
     useEffect(() => {
         axios
@@ -22,14 +26,26 @@ export default function FavoritesList() {
             })
             .catch(err => console.log(err));
 
+        axios
+            .get('/users/')
+            .then(res => {
+                console.log(res.data);
+                setCurrentUser(res.data);
+            })
+            .catch(err => console.log(err));
     }, []); 
 
 
-    return (
+    return loggedIn ? (
         <Row>
             {current.length > 0 ? (
                 <Col xs={10} md={8} lg={12} className='mt-3 mb-2'>
-                <h3>Favorites List</h3>
+                { currentUser ? ( 
+                    <h3>{currentUser.username}'s Saved Favorites</h3>
+                ) : (
+                    <h3>Favorites List</h3>
+                ) 
+                }
                 </Col>
             ) : null}
 
@@ -43,5 +59,7 @@ export default function FavoritesList() {
                 </Col>
             )}
         </Row>
+    ) : (
+        <Redirect to={{ pathname: '/login'}} />
     )
 }

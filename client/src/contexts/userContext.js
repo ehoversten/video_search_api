@@ -33,4 +33,5 @@ export function UserProvider(props) {
   );
 }
 
-export default createContext(null);
+// export default createContext(null);
+export default UserContext;

@@ -6,11 +6,20 @@ const jwtDecode = require('jwt-decode');
 
 const User = require('../models/User');
 
+// @@ Route : /users
 router.get('/', isAuthorized, async (req, res) => {
   try {
     const user = await User.findById(req.user);
     // res.send(user);
-    res.status(200).json(user);
+    let returnUser = {
+      _id: user._id,
+      first: user.first,
+      last: user.last,
+      username: user.username,
+      email: user.email,
+      user_favorites: user.user_favorites
+    }
+    res.status(200).json(returnUser);
   } catch (err) {
     res.status(400).json({ msg: 'Not Authorized', error: err });
   }
@@ -138,7 +147,6 @@ router.get('/logout', (req, res) => {
 
 // @@ VERIFICATION ROUTE
 // @@
-// router.post('/verify-token', async (req, res) => {
 router.get('/verify-token', async (req, res) => {
   try {
     // Check Cookie for Token
@@ -159,8 +167,12 @@ router.get('/verify-token', async (req, res) => {
     // -- Valid User (?)
     const user = await User.findById({ _id: verified.id });
     // const user = await User.findById({ _id: verified.user });
-    console.log(user);
+    // console.log(user);
     if (!user) return res.json(false);
+
+    // // Set User ID
+    // req.user = user;
+    // console.log(req.user);
 
     // -- Return TRUE if valid token || to WHERE ??
     return res.json(true);
@@ -170,11 +182,11 @@ router.get('/verify-token', async (req, res) => {
   }
 
   // Set User ID
-  req.user = verified.user;
-  console.log(req.user);
-  // Call Next middleware
-  console.log('Calling NEXT Middleware');
-  next();
+  // req.user = verified.user;
+  // console.log(req.user);
+  // // Call Next middleware
+  // console.log('Calling NEXT Middleware');
+  // next();
 });
 
 // -- TESTING -- //

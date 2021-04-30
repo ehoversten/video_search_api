@@ -91,7 +91,8 @@ function Login(props) {
       });
 
       // Redirect to Another Component
-      history.push('/users');
+      // history.push('/users');
+      history.push('/favorites');
     } catch (err) {
       setFormErrors({
         email: '',

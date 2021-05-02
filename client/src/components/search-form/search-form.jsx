@@ -14,6 +14,7 @@ import Col from 'react-bootstrap/Col';
 import classes from './search-form.module.css';
 function SearchForm(props) {
   const [query, setQuery] = useState('');
+  const [apiError, setApiError] = useState('');
   const { videos, setVideos } = useContext(VideoContext);
   const { search, setSearch } = useContext(SearchContext);
 
@@ -32,17 +33,22 @@ function SearchForm(props) {
   console.log(videos);
   async function submit(e) {
     e.preventDefault();
-    console.log(query);
+    try {
+      let data = await axios.post('/api/', { query });
+      console.log(data);
+      // console.log(data.data.items);
+      setVideos(data.data.items);
+      props.setData(data.data.items);
 
-    let data = await axios.post('/api/', { query });
-
-    // console.log(data.data.items);
-    setVideos(data.data.items);
-    props.setData(data.data.items);
-
-    setQuery('');
-    setSearch({ results: data.data.items, keywordSearch: query });
+      setQuery('');
+      setSearch({ results: data.data.items, keywordSearch: query });
+      setApiError('');
+    } catch (err) {
+      console.log(err.response.data.msg);
+      setApiError(err);
+    }
   }
+
 
   return (
     <Row className={` justify-content-start`}>
@@ -51,6 +57,9 @@ function SearchForm(props) {
           onSubmit={submit}
           className={` justify-content-start ${classes.formContainer}`}
         >
+          {apiError && (
+            <h5 className={classes.errorTag}>Error! Try search again</h5>
+          )}
           <Form.Group controlId='formBasicEmail'>
             <Form.Label>Find a Video</Form.Label>
             <Form.Control

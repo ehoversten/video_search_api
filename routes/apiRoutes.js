@@ -3,7 +3,7 @@ const searchAPI = require('../utils/API');
 const {isAuthorized} = require('../utils/auth');
 
 
-router.post('/', isAuthorized, (req, res) => {
+router.post('/', (req, res) => {
     // console.log("In server API call Route ...")
     // console.log(req.body);
     let querySearch = req.body.query;

@@ -5,3 +5,8 @@
   border-radius: 0.5rem;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.55);
 }
+
+.errorTag {
+  color: rgb(207, 74, 34);
+  font-weight: bold;
+}

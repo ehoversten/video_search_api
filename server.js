@@ -1,14 +1,15 @@
 const express = require('express');
+const PORT = process.env.port || 3001;
+const path = require('path');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const PORT = process.env.port || 3001;
 require('dotenv').config();
+const morgan = require('morgan');
 const mongoose = require('mongoose');
 const searchAPI = require('./utils/API');
 const user_routes = require('./routes/userRoutes');
 const favorite_routes = require('./routes/favoritesRoute');
 const api_routes = require('./routes/apiRoutes');
-const  morgan = require('morgan')
 
 const app = express();
 app.use(cors());
@@ -49,6 +50,15 @@ app.get('/', (req, res) => {
 app.use('/users', user_routes);
 app.use('/favorites', favorite_routes);
 app.use('/api', api_routes);
+
+
+if(process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
+  })
+}
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);

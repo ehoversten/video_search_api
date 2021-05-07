@@ -6,7 +6,6 @@ import axios from 'axios';
 // -- TESTING -- //
 import UserContext, { UserProvider } from './contexts/userContext';
 import AuthContext, { AuthContextProvider } from './contexts/authContext';
-import VideoContext, { VideoContextProvider } from './contexts/videoContext';
 import { SearchContextProvider } from './contexts/searchHistoryContext';
 
 //Bootstrap Styles
@@ -22,28 +21,16 @@ import NavigationBar from './components/navbar/Nav.component';
 import SearchContainer from './Pages/search/SearchContainer';
 import Detail from './components/detail/detail.component';
 import FavoritesList from './components/favorites/favorites-list.component';
-import FavoriteDetail from './components/favorites/favorites.detail.component'
+import FavoriteDetail from './components/favorites/favorites.detail.component';
+import { SearchResultContextProvider } from './contexts/search-result.context';
 
 function App() {
-  // Define User Hook
-  const [userData, setUserData] = useState({
-    token: undefined,
-    user: undefined,
-  });
-
-  // const { loggedIn, setLoggedIn } = useContext(AuthContextProvider);
-  const [loggedIn, setLoggedIn] = useState(undefined);
-
-  useEffect(() => {
-
-  }, []);
-
   return (
     <div className='App'>
-      <AuthContextProvider value={{ loggedIn, setLoggedIn }}>
-        <VideoContextProvider>
+      <AuthContextProvider>
+        <SearchResultContextProvider>
           <SearchContextProvider>
-            <NavigationBar user={userData}/>
+            <NavigationBar />
             <Container>
               <Switch>
                 <Route exact path='/' component={Homepage} />
@@ -57,7 +44,7 @@ function App() {
               </Switch>
             </Container>
           </SearchContextProvider>
-        </VideoContextProvider>
+        </SearchResultContextProvider>
       </AuthContextProvider>
     </div>
   );

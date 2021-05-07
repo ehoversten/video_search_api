@@ -6,10 +6,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
 
-
 //contexts
 import AuthContext from './../../contexts/authContext';
-import UserContext from '../../contexts/userContext';
 
 //components
 import LoginButton from './../Login-Button/Login-Button-component';
@@ -17,14 +15,6 @@ import LogoutButton from './../Logout-Button/Logout-Button.component';
 
 export default function NavigationBar(props) {
   const { loggedIn, setLoggedIn } = useContext(AuthContext);
-  // const { user } = useContext(UserContext);
-  console.log(`props:`);
-  console.log(props);
-  console.log("********");
-
-  // console.log(req.user);
-
-  let currentUser = props.userData;
 
   return (
     <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>

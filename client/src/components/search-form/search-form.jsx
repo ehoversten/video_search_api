@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 
 // -- TESTING -- //
-import VideoContext from '../../contexts/videoContext';
+import SearchResultContext from '../../contexts/search-result.context';
 import SearchContext from '../../contexts/searchHistoryContext';
 
 // Bootstrap Styles
@@ -15,13 +15,13 @@ import classes from './search-form.module.css';
 function SearchForm(props) {
   const [query, setQuery] = useState('');
   const [apiError, setApiError] = useState('');
-  const { videos, setVideos } = useContext(VideoContext);
+  const { searchResults, setSearchResults } = useContext(SearchResultContext);
   const { search, setSearch } = useContext(SearchContext);
 
   useEffect(() => {
     const getSearchResults = async () => {
       if (search.results && search.keywordSearch) {
-        setVideos(search.results);
+        setSearchResults(search.results);
         setQuery(search.keywordSearch);
       }
     };
@@ -29,15 +29,14 @@ function SearchForm(props) {
     return () => {
       //cleanup
     };
-  }, [search]);
-  console.log(videos);
+  }, [searchResults]);
   async function submit(e) {
     e.preventDefault();
     try {
       let data = await axios.post('/api/', { query });
       console.log(data);
       // console.log(data.data.items);
-      setVideos(data.data.items);
+      setSearchResults(data.data.items);
       props.setData(data.data.items);
 
       setQuery('');
@@ -48,7 +47,6 @@ function SearchForm(props) {
       setApiError(err);
     }
   }
-
 
   return (
     <Row className={` justify-content-start`}>

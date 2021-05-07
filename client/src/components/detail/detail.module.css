@@ -1,3 +1,13 @@
+.detailTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.saveIcon i {
+  transition: 0.5s;
+}
 .saveIcon i:hover {
   cursor: pointer;
+  transform: scale(1.1);
 }

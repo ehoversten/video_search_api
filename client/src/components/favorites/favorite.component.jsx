@@ -2,16 +2,18 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export default function Favorite(props) {
-  // console.log(props);
+  console.log(`props on fav icon ${props}`);
 
   const [isFavorite, setIsFavorite] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentFavorite, setCurrentFavorite] = useState({});
 
   useEffect(() => {
     const isFavorite = async () => {
       try {
-        // let res = await axios.get(`/favorites/${props.video.video_id}`);
-        // setIsFavorite(true);
+        let res = await axios.get(`/favorites/find/${props.video.video_id}`);
+        setIsFavorite(true);
+        setCurrentFavorite(res.data.favorite);
       } catch (err) {
         console.log(err);
       }
@@ -23,16 +25,25 @@ export default function Favorite(props) {
   }, []);
 
   const addFavorite = async (e) => {
-    // console.log(props.video)
-    let fav = await axios.post('/favorites/create', props.video);
-    console.log(fav);
-    setIsFavorite(true);
+    try {
+      let res = await axios.post('/favorites/create', props.video);
+      console.log(res.data);
+      setIsFavorite(true);
+      setCurrentFavorite(res.data.favorite);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const removeFavorite = async (e) => {
-    let fav = await axios.delete(`/favorites/${props.video.video_id}`);
-    console.log(fav);
-    setIsFavorite(false);
+    try {
+      let fav = await axios.delete(`/favorites/${currentFavorite._id}`);
+      console.log(fav);
+      setIsFavorite(false);
+      setCurrentFavorite({});
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

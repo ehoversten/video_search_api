@@ -43,9 +43,9 @@ app.use(cookieParser());
 app.use(morgan('dev'))
 
 // -- ROUTES -- //
-app.get('/', (req, res) => {
-  res.send('Hit Landing Page');
-});
+// app.get('/', (req, res) => {
+//   res.send('Hit Landing Page');
+// });
 
 app.use('/users', user_routes);
 app.use('/favorites', favorite_routes);

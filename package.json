@@ -12,10 +12,11 @@
     "client": "cd client && npm run start",
     "install": "cd client && npm install",
     "build": "cd client && npm run build",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install npm && run build"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build"
   },
   "engines": {
-    "node": "14.7.0"
+    "node": "14.x",
+    "npm": "6.x"
   },
   "repository": {
     "type": "git",

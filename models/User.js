@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-// const Favorite = require('./Favorites');
 
 const Schema = mongoose.Schema;
 

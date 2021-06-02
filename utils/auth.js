@@ -8,13 +8,7 @@ const isAuthorized = (req, res, next) => {
     return res.status(403).json({ msg: 'Token Missing, Authorization Denied' });
   }
 
-  // const token = req.header('x-auth-token');
-  // if(!token) {
-  //     return res.status(403).json({ msg: "Token Missing, Authorization Denied"});
-  // }
-
   // --> Verify Token
-  // const verified = jwt.verify(token, process.env.TOKEN_SECRET);
   const verified = jwt.verify(cookie, process.env.TOKEN_SECRET);
   if (!verified) {
     return res.status(403).json({ msg: 'Token Failed, Authorization Denied' });
@@ -31,9 +25,6 @@ const isAuthorized = (req, res, next) => {
 
 const createToken = (user) => {
   // Sign the JWT
-  //   if (!user.role) {
-  //     throw new Error('No user role specified');
-  //   }
   return jwt.sign(
     {
       sub: user._id, //subject

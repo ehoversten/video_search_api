@@ -1,26 +1,21 @@
 const router = require('express').Router();
 const searchAPI = require('../utils/API');
-const {isAuthorized} = require('../utils/auth');
 
-
+// @@ Route : /api
+// @@ QUERY API ROUTE
+// @@
 router.post('/', (req, res) => {
-    // console.log("In server API call Route ...")
-    // console.log(req.body);
     let querySearch = req.body.query;
-    console.log(`User: ${req.user}`);
-    // -- WORKING ON IT ???? -- //
+    // -- Query API -- //
     searchAPI(querySearch)
         .then(response => {
-            // console.log(response.data);
-            res.json(response.data);
+            return res.status(200).json(response.data);
         })
         .catch(err => {
-            console.log(err);
+            const errMsg = err.stack;
+            let message = 'Could not complete request';
+            return res.status(500).json({ error: message, errMsg, err });
         });
-});
-
-router.post('/test', isAuthorized, (req, res) => {
-    res.status(200).json({ msg: "Successful"} );
 });
 
 

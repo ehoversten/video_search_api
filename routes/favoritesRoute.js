@@ -57,7 +57,6 @@ router.get('/find/:id', isAuthorized, async (req, res) => {
 // @@ FAVORITE CREATE ROUTE
 // @@
 router.post('/create', isAuthorized, async (req, res) => {
-  console.log('Body obj on create route', req.body);
   try {
     // Add Validation
     // if (!title) {

@@ -10,7 +10,7 @@ const User = require('../models/User');
 router.get('/', isAuthorized, async (req, res) => {
   try {
     const user = await User.findById(req.user);
-    // res.send(user);
+    
     let returnUser = {
       _id: user._id,
       first: user.first,
@@ -36,7 +36,7 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ msg: 'Required field(s) missing' });
     }
     let user = await User.findOne({ email });
-    //-- Check User exists(???)
+    //-- Check User Exists
     if (user) {
       return res
         .status(400)
@@ -115,7 +115,10 @@ router.post('/login', async (req, res) => {
       algorithm: 'HS256',
       expiresIn: '1h',
     });
-    const decodedToken = jwtDecode(token);
+    
+    // -- TESTING -- //
+    // const decodedToken = jwtDecode(token);
+    // console.log(decodedToken);
 
     // send token in HTTP-only Cookie
     res.cookie('token', token, { httpOnly: true }).send();
@@ -141,7 +144,6 @@ router.post('/login', async (req, res) => {
 // @@ LOGOUT ROUTE
 // @@
 router.get('/logout', (req, res) => {
-  // res.headers({ "x-auth-token": "" });
   res.cookie('token', '', { httpOnly: true, expires: new Date(0) }).send();
 });
 
@@ -154,45 +156,29 @@ router.get('/verify-token', async (req, res) => {
     if (!cookie) {
       return res.json(false);
     }
-    // -- Check Header for Token
-    // const token = req.header("x-auth-token");
-    // if(!token) return res.json(false);
 
     // -- Verify Token
-    // const verified = jwt.verify(token, process.env.TOKEN_SECRET);
     const verified = jwt.verify(cookie, process.env.TOKEN_SECRET);
-
     if (!verified) return res.json(false);
 
     // -- Valid User (?)
     const user = await User.findById({ _id: verified.id });
-    // const user = await User.findById({ _id: verified.user });
-    // console.log(user);
+
     if (!user) return res.json(false);
 
-    // // Set User ID
-    // req.user = user;
-    // console.log(req.user);
-
-    // -- Return TRUE if valid token || to WHERE ??
+    // -- Return TRUE if valid token
     return res.json(true);
   } catch (err) {
     console.log(err);
     return res.status(400).json(false);
   }
 
-  // Set User ID
-  // req.user = verified.user;
-  // console.log(req.user);
-  // // Call Next middleware
-  // console.log('Calling NEXT Middleware');
-  // next();
 });
 
-// -- TESTING -- //
+// @@ ADMIN ROUTE
+// @@
 router.get('/admin', async (req, res) => {
   try {
-    // let users = await User.find({});
     let users = await User.find({}).populate('user_favorites');
     res.status(200).json(users);
   } catch (err) {

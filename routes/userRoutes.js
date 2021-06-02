@@ -73,7 +73,7 @@ router.post('/register', async (req, res) => {
     // --> Log User In
     // Create/Sign Token
     const token = jwt.sign({ id: savedUser._id }, process.env.TOKEN_SECRET);
-    console.log(token);
+
     // send token in HTTP-only Cookie
     res.cookie('token', token, { httpOnly: true }).send();
 
@@ -83,7 +83,9 @@ router.post('/register', async (req, res) => {
       user: savedUser,
     });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    const errMsg = err.stack;
+    let message = 'Could not complete request';
+    return res.status(500).json({ error: message, errMsg, err });
   }
 });
 
@@ -115,7 +117,7 @@ router.post('/login', async (req, res) => {
       algorithm: 'HS256',
       expiresIn: '1h',
     });
-    
+
     // -- TESTING -- //
     // const decodedToken = jwtDecode(token);
     // console.log(decodedToken);
@@ -136,8 +138,9 @@ router.post('/login', async (req, res) => {
       expiresAt,
     });
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: err.message });
+    const errMsg = err.stack;
+    let message = 'Could not complete request';
+    return res.status(500).json({ error: message, errMsg, err });
   }
 });
 
@@ -169,7 +172,6 @@ router.get('/verify-token', async (req, res) => {
     // -- Return TRUE if valid token
     return res.json(true);
   } catch (err) {
-    console.log(err);
     return res.status(400).json(false);
   }
 
@@ -182,7 +184,9 @@ router.get('/admin', async (req, res) => {
     let users = await User.find({}).populate('user_favorites');
     res.status(200).json(users);
   } catch (err) {
-    console.log(err);
+    const errMsg = err.stack;
+    let message = 'Could not complete request';
+    return res.status(500).json({ error: message, errMsg, err });
   }
 });
 

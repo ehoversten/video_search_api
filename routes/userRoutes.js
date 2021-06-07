@@ -1,7 +1,23 @@
 const router = require('express').Router();
+const { isAuthorized } = require('../utils/auth');
+const userController = require('../controllers/userController');
+
+// @@ Route : /users
+// @@ USERS ROUTES
+// @@
+router.get('/', isAuthorized, userController.getUsers);
+router.post('/register', userController.register);
+router.post('/login', userController.login);
+router.get('/logout', userController.logout);
+router.get('/verify-token', isAuthorized, userController.verify);
+router.get('/admin', isAuthorized, userController.authorized);
+
+
+module.exports = router;
+
+/*
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { isAuthorized } = require('../utils/auth');
 // const jwtDecode = require('jwt-decode');   // --> Testing
 
 const User = require('../models/User');
@@ -191,3 +207,5 @@ router.get('/admin', async (req, res) => {
 });
 
 module.exports = router;
+
+*/

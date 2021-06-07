@@ -1,4 +1,4 @@
-const router = require('express').Router();
+// const router = require('express').Router();
 const searchAPI = require('../utils/API');
 
 module.exports = {

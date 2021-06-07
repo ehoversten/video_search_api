@@ -2,7 +2,8 @@ const router = require('express').Router();
 const { isAuthorized } = require('../utils/auth');
 const favoriteController = require('../controllers/favoriteController')
 
-
+// @@ Route : /favorites
+// @@ FAVORITES ROUTE
 router.get('/', isAuthorized, favoriteController.getAll);
 router.post('/create', isAuthorized, favoriteController.create);
 router.get('/:favorite_id', isAuthorized, favoriteController.getOne);

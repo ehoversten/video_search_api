@@ -2,7 +2,7 @@ const router = require('express').Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { isAuthorized } = require('../utils/auth');
-const jwtDecode = require('jwt-decode');
+// const jwtDecode = require('jwt-decode');   // --> Testing
 
 const User = require('../models/User');
 

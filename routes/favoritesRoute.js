@@ -1,6 +1,16 @@
 const router = require('express').Router();
 const { isAuthorized } = require('../utils/auth');
+const favoriteController = require('../controllers/favoriteController')
 
+
+router.get('/', isAuthorized, favoriteController.getAll);
+router.post('/create', isAuthorized, favoriteController.create);
+router.get('/:favorite_id', isAuthorized, favoriteController.getOne);
+router.delete('/:favorite_id', isAuthorized, favoriteController.delete);
+
+module.exports = router;
+
+/*
 const Favorite = require('../models/Favorites');
 const User = require('../models/User');
 
@@ -123,4 +133,6 @@ router.delete('/:favorite_id', isAuthorized, async (req, res) => {
 });
 
 module.exports = router;
+
+*/
 // https://stackoverflow.com/questions/19786075/mongoose-deleting-pull-a-document-within-an-array-does-not-work-with-objectid

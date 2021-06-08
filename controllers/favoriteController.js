@@ -68,7 +68,7 @@ module.exports = {
                 });
             }
 
-            const newFavoriteItem = new Favorite(temp);
+            const newFavoriteItem = new Favorite(req.body);
 
             // --> Save Item to DB
             const savedFavoriteItem = await newFavoriteItem.save();

@@ -5,8 +5,9 @@ const favoriteController = require('../controllers/favoriteController')
 // @@ Route : /favorites
 // @@ FAVORITES ROUTE
 router.get('/', isAuthorized, favoriteController.getAll);
-router.post('/create', isAuthorized, favoriteController.create);
+router.post('/create', isAuthorized, favoriteController.add);
 router.get('/:favorite_id', isAuthorized, favoriteController.getOne);
+router.get('/find/:favorite_id', isAuthorized, favoriteController.findFavorite);
 router.delete('/:favorite_id', isAuthorized, favoriteController.delete);
 
 module.exports = router;

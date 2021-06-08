@@ -29,7 +29,27 @@ module.exports = {
             return res.status(500).json({ error: message, errMsg, err });
         }
     },
-    create: async (req, res) => {
+    findFavorite: async (req, res) => {
+          try {
+            const id = req.params.id;
+            const foundFavoriteItem = await Favorite.findOne({
+            video_id:id,
+            });
+            if (!foundFavoriteItem) {
+            return res.status(400).json({ msg: 'Not Found' });
+            }
+
+            return res.status(200).json({ favorite: foundFavoriteItem });
+        } catch (err) {
+            const errMsg = err.stack;
+            let message = 'Could not complete request';
+            return res.status(500).json({ error: message, errMsg, err });
+        }
+    },
+    add: async (req, res) => {
+
+        console.log("Adding Favorite...")
+        console.log(req.body)
         try {
             // Add Validation
             // if (!title) {

@@ -5,17 +5,17 @@ const bcrypt = require('bcrypt');
 const User = require('../models/User');
 
 module.exports = {
-    getUsers: async (req, res) => {
+    getUser: async (req, res) => {
         try {
             const user = await User.findById(req.user);
             
             let returnUser = {
-            _id: user._id,
-            first: user.first,
-            last: user.last,
-            username: user.username,
-            email: user.email,
-            user_favorites: user.user_favorites
+                _id: user._id,
+                first: user.first,
+                last: user.last,
+                username: user.username,
+                email: user.email,
+                user_favorites: user.user_favorites
             }
             res.status(200).json(returnUser);
         } catch (err) {
@@ -89,25 +89,25 @@ module.exports = {
 
             // Empty Validation
             if (!email || !password) {
-            return res.status(400).json({ msg: 'Required field(s) missing' });
+                return res.status(400).json({ msg: 'Required field(s) missing' });
             }
             // Find Existing User (?)
             const currentUser = await User.findOne({ email: email }).lean();
 
             if (!currentUser) {
-            return res.status(500).json({ msg: 'Email not registered' });
+                return res.status(500).json({ msg: 'Email not registered' });
             }
 
             // Compare Password
             const passMatch = bcrypt.compare(password, currentUser.password);
             if (!passMatch) {
-            return res.status(403).json({ msg: 'Not Authorized' });
+                return res.status(403).json({ msg: 'Not Authorized' });
             }
 
             // Create Token
             const token = jwt.sign({ id: currentUser._id }, process.env.TOKEN_SECRET, {
-            algorithm: 'HS256',
-            expiresIn: '1h',
+                algorithm: 'HS256',
+                expiresIn: '1h',
             });
 
             // -- TESTING -- //
@@ -164,7 +164,7 @@ module.exports = {
     authorized: async (req, res) => {
         try {
             let users = await User.find({}).populate('user_favorites');
-            res.status(200).json(users);
+            return res.status(200).json(users);
         } catch (err) {
             const errMsg = err.stack;
             let message = 'Could not complete request';

@@ -5,12 +5,13 @@ const userController = require('../controllers/userController');
 // @@ Route : /users
 // @@ USERS ROUTES
 // @@
-router.get('/', isAuthorized, userController.getUsers);
+router.get('/', isAuthorized, userController.getUser);
 router.post('/register', userController.register);
 router.post('/login', userController.login);
 router.get('/logout', userController.logout);
 router.get('/verify-token', isAuthorized, userController.verify);
-router.get('/admin', isAuthorized, userController.authorized);
+// router.get('/admin', isAuthorized, userController.authorized);
+router.get('/admin', userController.authorized);
 
 
 module.exports = router;

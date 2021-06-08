@@ -1,12 +1,15 @@
-const { isAuthorized } = require('../utils/auth');
-
 const Favorite = require('../models/Favorites');
 const User = require('../models/User');
 
 module.exports = {
     getAll: async (req, res) => {
         try {
-            const favorites = await Favorite.find({}).populate('addedBy');
+            // -- Get User -- //
+            const id = req.user;
+            const currentUser = await User.findById(id).populate('user_favorites')
+
+            let favorites = currentUser.user_favorites;
+
             res.status(200).json(favorites);
         } catch (err) {
             return res
@@ -51,17 +54,12 @@ module.exports = {
         console.log("Adding Favorite...")
         console.log(req.body)
         try {
-            // Add Validation
-            // if (!title) {
-            //   res.status(400).json({ msg: 'Required field(s) missing' });
-            // }
+            // -- Get User -- //
+            const id = req.user
+            const currentUser = await User.findById(id).populate('user_favorites');
 
             // Make sure Item doesn't already exist in DB
-            const foundFavoriteItem = await Favorite.findOne({
-            video_id: req.body.video_id,
-            });
-
-            if (foundFavoriteItem) {
+            if(req.body.video_id in currentUser.user_favorites) {
                 return res.status(400).json({
                     message: 'Item under that name already exists',
                     data: foundFavoriteItem,
@@ -69,15 +67,13 @@ module.exports = {
             }
 
             const newFavoriteItem = new Favorite(req.body);
-
             // --> Save Item to DB
             const savedFavoriteItem = await newFavoriteItem.save();
 
-            // -- Get User -- //
-            const id = req.user;
-            const currentUser = await User.findByIdAndUpdate(
-            { _id: id },
-            { $push: { user_favorites: savedFavoriteItem._id } }
+            // --> Associate Item to User
+            await User.findByIdAndUpdate(
+                { _id: id },
+                { $push: { user_favorites: savedFavoriteItem._id } }
             );
 
             res.status(200).json({ favorite: savedFavoriteItem, currentUser });

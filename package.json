@@ -8,11 +8,10 @@
     "watch": "nodemon server.js",
     "start": "node server",
     "start:prod": "node server.js",
-    "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
+    "start:dev": "concurrently \"npm start\" \"cd client && npm start\"",
     "client": "cd client && npm run start",
     "install": "cd client && npm install",
-    "build": "cd client && npm run build",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build"
+    "build": "cd client && npm run build"
   },
   "engines": {
     "node": "14.x"

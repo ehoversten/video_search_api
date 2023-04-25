@@ -17,7 +17,8 @@ app.use(cors());
 
 // -- DATABASE CONNECTION -- //
 mongoose.connect(
-  process.env.MONGODB_URI || 'mongodb://localhost/video_favorites',
+//  process.env.MONGODB_URI || 'mongodb://localhost/video_favorites',
+  process.env.MONGODB_URI,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,

@@ -73,9 +73,10 @@ router.post('/register', async (req, res) => {
     // --> Log User In
     // Create/Sign Token
     const token = jwt.sign({ id: savedUser._id }, process.env.TOKEN_SECRET);
-    console.log(token);
+    console.log("Token: ", token);
     // send token in HTTP-only Cookie
-    res.cookie('token', token, { httpOnly: true }).send();
+    // res.cookie('token', token, { httpOnly: true }).send();
+    res.cookie('token', token, { httpOnly: true });
 
     // Send JSON response
     res.status(200).json({
@@ -118,10 +119,11 @@ router.post('/login', async (req, res) => {
     const decodedToken = jwtDecode(token);
 
     // send token in HTTP-only Cookie
-    res.cookie('token', token, { httpOnly: true }).send();
+    // res.cookie('token', token, { httpOnly: true }).send();
+    res.cookie('token', token, { httpOnly: true });
 
     // Send Successful Response
-    res.status(200).json({
+    return res.status(200).json({
       message: 'Authentication successful!',
       user: {
         id: currentUser._id,
@@ -130,7 +132,7 @@ router.post('/login', async (req, res) => {
         username: currentUser.username,
         email: currentUser.email,
       },
-      expiresAt,
+      // expiresAt,
     });
   } catch (err) {
     console.log(err);
@@ -193,7 +195,8 @@ router.get('/verify-token', async (req, res) => {
 router.get('/admin', async (req, res) => {
   try {
     // let users = await User.find({});
-    let users = await User.find({}).populate('user_favorites');
+    // let users = await User.find({}).populate('user_favorites');
+    let users = await User.findAll({}).populate('user_favorites');
     res.status(200).json(users);
   } catch (err) {
     console.log(err);

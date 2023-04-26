@@ -69,6 +69,7 @@ router.post('/register', async (req, res) => {
 
     // Save User to DB
     const savedUser = await newUser.save();
+    console.log("Save User: ", savedUser);
 
     // --> Log User In
     // Create/Sign Token

@@ -29,16 +29,23 @@ export default function FavoritesList() {
         axios
             .get('/users/')
             .then(res => {
-                console.log(res.data);
+                console.log("User Data: ", res.data);
+                console.log("Users Favs: ", res.data.user_favorites);
+                // setCurrent(res.data.user_favorites);
                 setCurrentUser(res.data);
             })
             .catch(err => console.log(err));
     }, []); 
 
+    const getUserFavs = async () => {
+        let favoritesArr = await axios.get('/favorites')
+    }
+
 
     return loggedIn ? (
         <Row>
-            {current.length > 0 ? (
+            {/* {currentUser.user_favorites.length > 0 ? ( */}
+            {current.length > 0 ? ( 
                 <Col xs={10} md={8} lg={12} className='mt-3 mb-2'>
                 { currentUser ? ( 
                     <h3>{currentUser.username}'s Saved Favorites</h3>
@@ -49,11 +56,12 @@ export default function FavoritesList() {
                 </Col>
             ) : null}
 
+            {/* {currentUser.user_favorites.length > 0 ? ( */}
             {current.length > 0 ? (
                 current.map((video) => (
-                <FavoritePreview video={video} key={video.video_id} />
-                ))
-            ) : (
+                    <FavoritePreview video={video} key={video.video_id} />
+                    ))
+                    ) : (
                 <Col xs={10} md={8} lg={12} className='mt-3'>
                 <h3>No Results</h3>
                 </Col>

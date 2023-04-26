@@ -6,7 +6,9 @@ const User = require('../models/User');
 
 router.get('/', isAuthorized, async (req, res) => {
   try {
+    // const favorites = await Favorite.find({}).populate('addedBy');
     const favorites = await Favorite.find({}).populate('addedBy');
+    console.log("Favs: ", favorites);
     res.status(200).json(favorites);
     // res.status(200).json({ msg: 'Base Favorite Route'});
   } catch (err) {

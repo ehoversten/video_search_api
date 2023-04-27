@@ -23,7 +23,7 @@ const isAuthorized = (req, res, next) => {
 
   // Set User ID
   req.user = verified.id;
-  console.log(req.user);
+  console.log("User Id: ",req.user);
   // Call Next middleware
   console.log('Calling NEXT Middleware');
   next();

@@ -26,7 +26,7 @@ export function UserProvider(props) {
   }, [user]);
 
   return (
-    // Passing the books arr and the reducer
+
     <UserContext.Provider value={{ user, dispatch }}>
       {props.children}
     </UserContext.Provider>

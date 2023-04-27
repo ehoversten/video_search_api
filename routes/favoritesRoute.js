@@ -94,12 +94,14 @@ router.post('/create', isAuthorized, async (req, res) => {
     console.log(savedFavoriteItem);
     // -- Grab User -- //
     const id = req.user;
-    console.log(id);
+    console.log("User Id: ", id);
     const currentUser = await User.findByIdAndUpdate(
       { _id: id },
-      { $push: { user_favorites: savedFavoriteItem._id } }
+      // { $push: { user_favorites: savedFavoriteItem._id } }
+      { $addToSet: { user_favorites: savedFavoriteItem._id } },
+      { new: true }
     );
-    console.log(currentUser);
+    console.log("Current User: ", currentUser);
 
     // let savingOp = await user.favorites.push(savedFavoriteItem._id); // returns length of array
 

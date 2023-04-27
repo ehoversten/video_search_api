@@ -28,23 +28,27 @@ function App() {
   return (
     <div className='App'>
       <AuthContextProvider>
-        <SearchResultContextProvider>
-          <SearchContextProvider>
-            <NavigationBar />
-            <Container>
-              <Switch>
-                <Route exact path='/' component={Homepage} />
-                <Route exact path='/users' component={AuthDashboard} />
-                <Route exact path='/signup' component={Signup} />
-                <Route exact path='/login' component={Login} />
-                <Route exact path='/search/:id' component={Detail} />
-                <Route exact path='/search' component={SearchContainer} />
-                <Route exact path='/favorites/:id' component={FavoriteDetail} />
-                <Route exact path='/favorites' component={FavoritesList} />
-              </Switch>
-            </Container>
-          </SearchContextProvider>
-        </SearchResultContextProvider>
+        {/* <UserProvider> */}
+
+          <SearchResultContextProvider>
+            <SearchContextProvider>
+              <NavigationBar />
+              <Container>
+                <Switch>
+                  <Route exact path='/' component={Homepage} />
+                  <Route exact path='/users' component={AuthDashboard} />
+                  <Route exact path='/signup' component={Signup} />
+                  <Route exact path='/login' component={Login} />
+                  <Route exact path='/search/:id' component={Detail} />
+                  <Route exact path='/search' component={SearchContainer} />
+                  <Route exact path='/favorites/:id' component={FavoriteDetail} />
+                  <Route exact path='/favorites' component={FavoritesList} />
+                </Switch>
+              </Container>
+            </SearchContextProvider>
+          </SearchResultContextProvider>
+
+        {/* </UserProvider> */}
       </AuthContextProvider>
     </div>
   );

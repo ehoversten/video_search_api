@@ -3,13 +3,34 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { isAuthorized } = require('../utils/auth');
 const jwtDecode = require('jwt-decode');
+require('dotenv').config();
 
 const User = require('../models/User');
+const Favorite = require('../models/Favorites');
 
 // @@ Route : /users
 router.get('/', isAuthorized, async (req, res) => {
   try {
-    const user = await User.findById(req.user);
+    // const userTest = await User.findById(req.user);
+    // console.log("Auth User: ", userTest);
+    const user = await User.findOne({ _id: req.user })
+      .select('-__v')
+      .populate('user_favorites')
+
+    console.log("Authorized User: ", user);
+
+    // const favs = await Favorite.find({})
+    // console.log("All Favorites: ", favs);
+    // const userFavs = favs.filter((item, idx) => {
+    //   console.log("Index: ", idx);
+    //   console.log("Favorite ID: ", user.user_favorites[idx]);
+    //   console.log("Item ID: ", item._id);
+    //   // if(item._id == user.user_favorites[idx]) {
+    //   //   return item;
+    //   // }
+    //   return (item._id == user.user_favorites[idx]);
+    // });
+    // console.log("User Favorites: ", userFavs);
     // res.send(user);
     let returnUser = {
       _id: user._id,
@@ -19,7 +40,8 @@ router.get('/', isAuthorized, async (req, res) => {
       email: user.email,
       user_favorites: user.user_favorites
     }
-    res.status(200).json(returnUser);
+    // res.status(200).json(returnUser);
+    res.status(200).json(user);
   } catch (err) {
     res.status(400).json({ msg: 'Not Authorized', error: err });
   }
@@ -175,7 +197,7 @@ router.get('/verify-token', async (req, res) => {
 
     // // Set User ID
     // req.user = user;
-    // console.log(req.user);
+    // console.log("Req UserID: ", req.user);
 
     // -- Return TRUE if valid token || to WHERE ??
     return res.json(true);
@@ -197,7 +219,7 @@ router.get('/admin', async (req, res) => {
   try {
     // let users = await User.find({});
     // let users = await User.find({}).populate('user_favorites');
-    let users = await User.findAll({}).populate('user_favorites');
+    let users = await User.find({}).populate('user_favorites');
     res.status(200).json(users);
   } catch (err) {
     console.log(err);

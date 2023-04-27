@@ -68,8 +68,7 @@ function Login(props) {
     try {
       let authorized = await axios.post('/users/login', { email, password });
       // -- TESTING -- //
-      console.log(`Authorized:`);
-      console.log(authorized);
+      console.log(`Authorized:`, authorized);
 
       await getLoggedIn();
 

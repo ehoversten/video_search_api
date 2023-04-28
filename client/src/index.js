@@ -9,11 +9,11 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const app =
-  <BrowserRouter>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </BrowserRouter>
+  <React.StrictMode>
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>
+  </React.StrictMode>
   
 ReactDOM.render(
   app,

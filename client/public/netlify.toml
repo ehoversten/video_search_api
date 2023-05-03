@@ -1,0 +1,27 @@
+[build]
+    publish = 'build'
+
+
+[[redirects]]
+    from = '/test'
+    to = 'https://video-search-api.onrender.com/users/admin'
+
+
+[[redirects]]
+    from = '/users/login'
+    to = 'https://video-search-api.onrender.com/users/login'
+
+
+[[redirects]]
+    from = '/users/register'
+    to = 'https://video-search-api.onrender.com/users/register'
+
+
+[[redirects]]
+    from = '/users/verify-token'
+    to = 'https://video-search-api.onrender.com/users/verify-token'
+
+
+[[redirects]]
+    from = '/api'
+    to = 'https://video-search-api.onrender.com/api'

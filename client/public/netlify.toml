@@ -5,23 +5,27 @@
 [[redirects]]
     from = '/test'
     to = 'https://video-search-api.onrender.com/users/admin'
-
+    status = 200
 
 [[redirects]]
     from = '/users/login'
     to = 'https://video-search-api.onrender.com/users/login'
+    status = 200
 
 
 [[redirects]]
     from = '/users/register'
     to = 'https://video-search-api.onrender.com/users/register'
+    status = 200
 
 
 [[redirects]]
     from = '/users/verify-token'
     to = 'https://video-search-api.onrender.com/users/verify-token'
+    status = 200
 
 
 [[redirects]]
-    from = '/api'
-    to = 'https://video-search-api.onrender.com/api'
+    from = '/api/*'
+    to = 'https://video-search-api.onrender.com/api/:splat'
+    status = 200

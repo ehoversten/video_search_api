@@ -30,17 +30,24 @@ function SearchForm(props) {
       //cleanup
     };
   }, [searchResults]);
+
   async function submit(e) {
     e.preventDefault();
     try {
-      let data = await axios.post('/api/', { query });
-      console.log(data);
-      // console.log(data.data.items);
-      setSearchResults(data.data.items);
-      props.setData(data.data.items);
+      let dataPost = await axios.post('/api/', { query });
+      let dataGet = await axios.get(`/api/${query}`);
+      console.log("Post Request: ", dataPost);
+      console.log("*************************");
+      console.log("Get Request: ", dataGet);
+      console.log("Data: ", dataPost.data.items);
+      setSearchResults(dataPost.data.items);
+      props.setData(dataPost.data.items);
+      // // console.log(data.data.items);
+      // setSearchResults(data.data.items);
+      // props.setData(data.data.items);
 
       setQuery('');
-      setSearch({ results: data.data.items, keywordSearch: query });
+      setSearch({ results: dataPost.data.items, keywordSearch: query });
       setApiError('');
     } catch (err) {
       console.log(err.response.data.msg);

@@ -21,9 +21,7 @@ const SearchContextProvider = (props) => {
   // };
 
   return (
-    <SearchContext.Provider
-      value={{ search, setSearch }}
-    >
+    <SearchContext.Provider value={{ search, setSearch }}>
       {props.children}
     </SearchContext.Provider>
   );

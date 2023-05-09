@@ -10,7 +10,7 @@ import Col from 'react-bootstrap/Col';
 import ResultPreview from '../result-preview/result-preview.component';
 
 export default function ResultsList(props) {
-  console.log(`Results List Props: ${props}`);
+  console.log(`Results List Props: `);
   console.log(props);
 
   return (

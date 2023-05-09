@@ -6,6 +6,7 @@ import SearchContext from '../../contexts/searchHistoryContext';
 export default function SearchContainer() {
   const [videos, setVideos] = useState({});
   const { search, setSearch } = useContext(SearchContext);
+
   useEffect(() => {
     const getSearchResults = async () => {
       if (search.results && search.keywordSearch) {

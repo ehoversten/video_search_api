@@ -12,21 +12,21 @@
 [[redirects]]
     from = '/users/login'
     to = 'https://video-search-api.onrender.com/users/login'
-    status = 200
+    status = 302
     force = true
     headers = {X-From = "Netlify"}
 
 [[redirects]]
     from = '/users/register'
     to = 'https://video-search-api.onrender.com/users/register'
-    status = 200
+    status = 302
     force = true
     headers = {X-From = "Netlify"}
 
 [[redirects]]
     from = '/users/verify-token'
     to = 'https://video-search-api.onrender.com/users/verify-token'
-    status = 200
+    status = 302
     force = true
     headers = {X-From = "Netlify"}
 
@@ -34,7 +34,7 @@
 [[redirects]]
     from = '/api/'
     to = 'https://video-search-api.onrender.com/api/'
-    status = 200
+    status = 302
 
 
 [[redirects]]

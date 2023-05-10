@@ -34,8 +34,8 @@ function SearchForm(props) {
   async function submit(e) {
     e.preventDefault();
     try {
-      let dataPost = await axios.post('/api/', { query });
-      let dataGet = await axios.get(`/api/${query}`);
+      let dataPost = await axios.post('/api/', { query }, { headers: { 'content-type': 'text/json' }});
+      let dataGet = await axios.get(`/api/${query}`, { headers: { 'content-type': 'text/json' }});
       console.log("Post Request: ", dataPost);
       console.log("*************************");
       console.log("Get Request: ", dataGet);

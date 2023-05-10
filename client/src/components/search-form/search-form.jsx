@@ -34,20 +34,27 @@ function SearchForm(props) {
   async function submit(e) {
     e.preventDefault();
     try {
-      let dataPost = await axios.post('/api/', { query }, { headers: { 'content-type': 'text/json' }});
-      let dataGet = await axios.get(`/api/${query}`, { headers: { 'content-type': 'text/json' }});
-      console.log("Post Request: ", dataPost);
+   //   let dataPost = await axios.post('/api/', { query }, { headers: { 'content-type': 'application/json' }});
+      let dataGet = await axios.get(`/api/${query}`, { headers: { 'content-type': 'application/json' }});
+    //  console.log("Post Request: ", dataPost);
       console.log("*************************");
       console.log("Get Request: ", dataGet);
-      console.log("Data: ", dataPost.data.items);
-      setSearchResults(dataPost.data.items);
-      props.setData(dataPost.data.items);
+
+      // console.log("Data: ", dataPost.data.items);
+      // setSearchResults(dataPost.data.items);
+      // props.setData(dataPost.data.items);
+
+      console.log("Data: ", dataGet.data.items);
+      setSearchResults(dataGet.data.items);
+      props.setData(dataGet.data.items);
+
       // // console.log(data.data.items);
       // setSearchResults(data.data.items);
       // props.setData(data.data.items);
 
       setQuery('');
-      setSearch({ results: dataPost.data.items, keywordSearch: query });
+    //  setSearch({ results: dataPost.data.items, keywordSearch: query });
+      setSearch({ results: dataGet.data.items, keywordSearch: query });
       setApiError('');
     } catch (err) {
       console.log(err.response.data.msg);

@@ -3,12 +3,12 @@ const searchAPI = require('../utils/API');
 const {isAuthorized} = require('../utils/auth');
 
 
-router.get('/', (req, res) => {
-    console.log(req);
-    console.log(`User: ${req.user}`);
+// router.get('/', (req, res) => {
+//     console.log(req);
+//     console.log(`User: ${req.user}`);
 
-    res.status(200).json({ msg: "Hit /api Route"})
-})
+//     res.status(200).json({ msg: "Hit /api Route"})
+// })
 
 router.get('/:query', (req, res) => {
     console.log('ParamS: ', req.params);

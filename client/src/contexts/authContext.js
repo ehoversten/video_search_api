@@ -14,6 +14,7 @@ function AuthContextProvider(props) {
   async function getLoggedIn() {
     try {
       const loggedInRes = await axios.get('/users/verify-token');
+      console.log(`User: ${loggedInRes}`);
       console.log(`User logged in: ${loggedInRes.data}`);
       setLoggedIn(loggedInRes.data);
     } catch (error) {

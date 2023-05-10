@@ -34,11 +34,11 @@ function SearchForm(props) {
   async function submit(e) {
     e.preventDefault();
     try {
-      let dataPost = await axios.post('/api/', { query }, { headers: { 'content-type': 'application/json' }});
+      let dataPost = await axios.post('/api', { query }, { headers: { 'content-type': 'application/json' }});
   //    let dataGet = await axios.get(`/api/${query}`, { headers: { 'content-type': 'application/json' }});
     //  console.log("Post Request: ", dataPost);
-      console.log("*************************");
-      console.log("Get Request: ", dataGet);
+      // console.log("*************************");
+      // console.log("Get Request: ", dataGet);
 
       console.log("Data: ", dataPost.data.items);
       setSearchResults(dataPost.data.items);

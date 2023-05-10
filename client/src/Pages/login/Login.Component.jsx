@@ -66,7 +66,9 @@ function Login(props) {
 
     //-- Send to Server Route
     try {
-      let authorized = await axios.post('/users/login', { email, password }, { headers: { 'content-type': 'application/json' }});
+      let authorized = await axios.post('/users/login', { email, password }, 
+        { headers: { 'content-type': 'application/json', 'access-control-allow-origin': '*' }}
+      );
       // -- TESTING -- //
       console.log(`Authorized:`, authorized);
 

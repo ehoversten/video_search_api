@@ -13,14 +13,13 @@
     from = '/users/login'
     to = 'https://video-search-api.onrender.com/users/login'
     status = 302
-    force = true
-    headers = {X-From = "Netlify"}
+
 
 [[redirects]]
     from = '/users/register'
     to = 'https://video-search-api.onrender.com/users/register'
     status = 302
-    force = true
+    force = false
     headers = {X-From = "Netlify"}
 
 [[redirects]]
@@ -35,7 +34,8 @@
     from = '/api/'
     to = 'https://video-search-api.onrender.com/api/'
     status = 302
-
+    force = true
+    headers = {X-From = "Netlify"}
 
 [[redirects]]
     from = '/api/*'

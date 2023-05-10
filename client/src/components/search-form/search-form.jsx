@@ -34,7 +34,7 @@ function SearchForm(props) {
   async function submit(e) {
     e.preventDefault();
     try {
-   //   let dataPost = await axios.post('/api/', { query }, { headers: { 'content-type': 'application/json' }});
+      let dataPost = await axios.post('/api/', { query }, { headers: { 'content-type': 'application/json' }});
       let dataGet = await axios.get(`/api/${query}`, { headers: { 'content-type': 'application/json' }});
     //  console.log("Post Request: ", dataPost);
       console.log("*************************");
@@ -53,8 +53,8 @@ function SearchForm(props) {
       // props.setData(data.data.items);
 
       setQuery('');
-    //  setSearch({ results: dataPost.data.items, keywordSearch: query });
-      setSearch({ results: dataGet.data.items, keywordSearch: query });
+     setSearch({ results: dataPost.data.items, keywordSearch: query });
+      // setSearch({ results: dataGet.data.items, keywordSearch: query });
       setApiError('');
     } catch (err) {
       console.log(err.response.data.msg);

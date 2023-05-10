@@ -13,6 +13,7 @@
     from = '/users/login'
     to = 'https://video-search-api.onrender.com/users/login'
     status = 302
+    headers = {Access-Control-Allow-Origin = "*", Access-Control-Allow-Methods = "POST"}
 
 
 [[redirects]]
@@ -35,7 +36,7 @@
     to = 'https://video-search-api.onrender.com/api/'
     status = 302
     force = true
-    headers = {X-From = "Netlify"}
+    headers = {Access-Control-Allow-Origin = "*", Access-Control-Allow-Methods = "POST"}
 
 [[redirects]]
     from = '/api/*'

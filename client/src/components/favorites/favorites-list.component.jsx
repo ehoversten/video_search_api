@@ -45,7 +45,8 @@ export default function FavoritesList() {
     const getUserFavs = async () => {
         // let favoritesArr = await axios.get('/users');
         try {
-            let userReq = await axios.get('/users')
+            let userReq = await axios.get('/users', { headers: { 'content-type': 'application/json'}})
+            console.log("User is: ", userReq);
             setCurrentUser(userReq.data);
             setLoading(false);
             // setCurrent(user.user_favorites);

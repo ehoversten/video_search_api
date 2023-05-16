@@ -4,6 +4,7 @@ const { isAuthorized } = require('../utils/auth');
 const Favorite = require('../models/Favorites');
 const User = require('../models/User');
 
+// Get all saved favorites from all users
 router.get('/', isAuthorized, async (req, res) => {
   try {
     // const favorites = await Favorite.find({}).populate('addedBy');

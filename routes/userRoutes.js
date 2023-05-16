@@ -129,7 +129,12 @@ router.post('/login', async (req, res) => {
     }
 
     // Compare Password
-    const passMatch = bcrypt.compare(password, currentUser.password);
+    console.log("Pass: ", password)
+    console.log("User Pass: ", currentUser.password)
+
+    // const passMatch = bcrypt.compare(password, currentUser.password);
+    const passMatch = bcrypt.compare(password, currentUser.hash);
+    console.log("Match: ", passMatch);
     if (!passMatch) {
       return res.status(403).json({ msg: 'Not Authorized' });
     }
@@ -140,7 +145,7 @@ router.post('/login', async (req, res) => {
       expiresIn: '1h',
     });
     const decodedToken = jwtDecode(token);
-
+    console.log("Token: ", decodedToken);
     // send token in HTTP-only Cookie
     // res.cookie('token', token, { httpOnly: true }).send();
     res.cookie('token', token, { httpOnly: true });

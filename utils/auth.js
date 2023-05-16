@@ -19,7 +19,7 @@ const isAuthorized = (req, res, next) => {
   if (!verified) {
     return res.status(403).json({ msg: 'Token Failed, Authorization Denied' });
   }
-  console.log(verified);
+  console.log("Verified: ", verified);
 
   // Set User ID
   req.user = verified.id;

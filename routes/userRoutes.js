@@ -123,7 +123,7 @@ router.post('/login', async (req, res) => {
     }
     // Find Existing User (?)
     const currentUser = await User.findOne({ email: email }).lean();
-
+    console.log("User: ", currentUser);
     if (!currentUser) {
       return res.status(500).json({ msg: 'Email not registered' });
     }
@@ -173,6 +173,8 @@ router.get('/logout', (req, res) => {
 // @@ VERIFICATION ROUTE
 // @@
 router.get('/verify-token', async (req, res) => {
+  console.log("Hit Verify User Route....");
+
   try {
     // Check Cookie for Token
     const cookie = req.cookies.token;

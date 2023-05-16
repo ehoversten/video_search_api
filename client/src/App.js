@@ -36,7 +36,7 @@ function App() {
               <Container>
                 <Switch>
                   <Route exact path='/' component={Homepage} />
-                  <Route exact path='/users' component={AuthDashboard} />
+                  {/* <Route exact path='/users' component={AuthDashboard} /> */}
                   <Route exact path='/signup' component={Signup} />
                   <Route exact path='/login' component={Login} />
                   <Route exact path='/search/:id' component={Detail} />

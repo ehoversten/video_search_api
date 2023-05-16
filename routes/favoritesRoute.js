@@ -34,6 +34,7 @@ router.get('/:favorite_id', isAuthorized, async (req, res) => {
     return res.status(500).json({ error: message, errMsg, err });
   }
 });
+
 router.get('/find/:id', isAuthorized, async (req, res) => {
   try {
     console.log(req.params);

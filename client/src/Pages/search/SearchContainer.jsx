@@ -4,6 +4,8 @@ import ResultsList from '../../components/results-list/results-list.component';
 
 import SearchContext from '../../contexts/searchHistoryContext';
 export default function SearchContainer() {
+
+  // Is this not REDUNFANT? Should only one of these statements be used? (TEST THIS!!)
   const [videos, setVideos] = useState({});
   const { search, setSearch } = useContext(SearchContext);
 

@@ -40,8 +40,12 @@ function SearchForm(props) {
       // console.log("*************************");
       // console.log("Get Request: ", dataGet);
 
+      
       console.log("Data: ", dataPost.data.items);
+
+      // Save to resultsContext
       setSearchResults(dataPost.data.items);
+      // Lift State UP
       props.setData(dataPost.data.items);
 
       // console.log("Data: ", dataGet.data.items);

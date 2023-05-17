@@ -45,7 +45,7 @@ router.post('/test', isAuthorized, (req, res) => {
     res.status(200).json({ msg: "Successful"} );
 });
 
-router.get('favorites/:favorite_id', isAuthorized, async (req, res) => {
+router.get('/favorites/:favorite_id', isAuthorized, async (req, res) => {
     try {
       const id = req.params.favorite_id;
       const foundFavoriteVideo = await Favorite.findById(id).exec();

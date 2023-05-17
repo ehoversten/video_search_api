@@ -15,6 +15,7 @@ function FavoriteDetail({ match }) {
 
   async function onClickHandler() {
     try {
+      // Add /api prefix to route endpoint
       let res = await axios.delete(`/favorites/${currentVideo._id}`);
       console.log(res);
       history.push('/favorites');
@@ -22,10 +23,12 @@ function FavoriteDetail({ match }) {
       console.log('error!', err);
     }
   }
-
+  
   const getVideo = async () => {
     let id = match.params.id;
-    let res = await axios.get(`/favorites/${id}`);
+    // Add /api prefix to route endpoint
+    let res = await axios.get(`/api/favorites/${id}`);
+    // let res = await axios.get(`/favorites/find/${id}`);
     // let vid = favs.data.filter((vid) => vid.video_id === match.params.id);
     setCurrentVideo(res.data.favorite);
   };

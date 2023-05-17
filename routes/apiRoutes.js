@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const searchAPI = require('../utils/API');
 const {isAuthorized} = require('../utils/auth');
-
+const Favorite = require('../models/Favorites');
 
 // router.get('/', (req, res) => {
 //     console.log(req);
@@ -45,6 +45,22 @@ router.post('/test', isAuthorized, (req, res) => {
     res.status(200).json({ msg: "Successful"} );
 });
 
+router.get('/:favorite_id', isAuthorized, async (req, res) => {
+    try {
+      const id = req.params.favorite_id;
+      const foundFavoriteVideo = await Favorite.findById(id).exec();
+      if (!foundFavoriteVideo) {
+        return res.status(400).json({ msg: 'Not Found' });
+      }
+  
+      return res.status(200).json({ favorite: foundFavoriteVideo });
+    } catch (err) {
+      console.log(err.stack);
+      const errMsg = err.stack;
+      let message = 'Could not complete request';
+      return res.status(500).json({ error: message, errMsg, err });
+    }
+  });
 
 module.exports = router;
 

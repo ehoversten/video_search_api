@@ -38,6 +38,21 @@ router.get('/:favorite_id', isAuthorized, async (req, res) => {
 
 router.get('/find/:id', isAuthorized, async (req, res) => {
   try {
+    const id = req.params.favorite_id;
+    const foundFavoriteVideo = await Favorite.findById(id).exec();
+    if (!foundFavoriteVideo) {
+      return res.status(400).json({ msg: 'Not Found' });
+    }
+  
+    return res.status(200).json({ favorite: foundFavoriteVideo });
+  } catch (err) {
+    console.log(err.stack);
+    const errMsg = err.stack;
+    let message = 'Could not complete request';
+    return res.status(500).json({ error: message, errMsg, err });
+  }
+  /*
+  try {
     console.log(req.params);
     const id = req.params.id;
     const foundFavoriteItem = await Favorite.findOne({
@@ -54,6 +69,7 @@ router.get('/find/:id', isAuthorized, async (req, res) => {
     let message = 'Could not complete request';
     return res.status(500).json({ error: message, errMsg, err });
   }
+  */
 });
 
 

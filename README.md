@@ -9,10 +9,28 @@
 
 ## Description
 
-This application allows a User to sign up/in to the application and enter a search term. React makes a request to the YouTube API based on the User search and displays a grid of results. A logged in User may save videos to their personal profile and view saved videos in a favorites view. Saved videos may be removed from Users favorites view.
+This application allows a User to register/login to the application using JSON web tokens (JWT) for user authentication. The user has the ability to enter a search term, which makes a request to the YouTube API. A grid of results will then be displayed, the user has the ability to select a video from the list for a detailed view. A logged in User may save videos to their personal profile and view all saved videos in their favorites list. Saved videos may be removed from Users favorite’s view. The application is designed to be mobile responsive and user friendly. 
 
 
-[YouTube Video Search](https://quiet-temple-74649.herokuapp.com/)
+[YouTube Video Search](https://video-search-react.onrender.com/)
+
+&nbsp;
+
+## User Story:
+
+As a YouTube video user, I want to be able to search by topic and save videos to my user favorites dashboard/profile. I also want the ability to remove a video from my saved favorites list.
+
+&nbsp;
+
+## Acceptance Criteria:
+
+As a user, I can register and sign-in to my account using my email and password.
+As a user, I can add to and delete from my favorites listings if I am an authenticated user.
+As a user, I can search for videos using the YouTube API based on user keyword input.
+As a user, I can view the details of a keyword search, including its title, thumbnail preview, content creator and short description.
+As a user, I can add friends and see their list of saved favorites – yet to implement
+As a user, I can access the online platform from any device, and the platform should be responsive and user-friendly.
+As a user, I expect the online platform to be secure and protect my personal information.
 
 &nbsp;
 
@@ -61,7 +79,7 @@ $> npm run start
 
 ## Deployment
 
-Deployment with Docker and AWS coming
+React Frontend and NodeJS Backend Deployed on Render.com
 
 &nbsp;
 
@@ -80,7 +98,7 @@ Deployment with Docker and AWS coming
 
 ## Versioning
 
-Version 1.0
+Version 1.1
 
 &nbsp;
 

@@ -1,4 +1,5 @@
-# YouTube Favorites
+# Design Doc for YouTube Favorites MERN Application
+&nbsp;
 
 This application allows a User to register/login to the application using JSON web tokens (JWT) for user authentication. The user has the ability to enter a search term, which makes a request to the YouTube API. A grid of results will then be displayed, the user has the ability to select a video from the list for a detailed view. A logged in User may save videos to their personal profile and view all saved videos in their favorites list. Saved videos may be removed from Users favorite’s view. The application is designed to be mobile responsive and user friendly. 
 
@@ -69,6 +70,20 @@ As a user, I expect the online platform to be secure and protect my personal inf
 *	Use ReactJS for the frontend development
 *	Use MongoDB and Mongoose ORM for database, connection, and CRUD interactions. 
 *	All team members set up the development environment, including tools Node.js 
+
+&nbsp;
+
+## Technology:
+
+- [JavaScript]() - Development Language
+- [Node](www.nodejs.org) - Backend Sever
+- [Express]() - Web framework
+- [React]() - Frontend 
+- [ContextAPI]() - Frontent State Management
+- [React-Bootstrap]() - CSS Framework
+- [MongoDB]() - Database Storage
+- [Mongoose]() - Database ORM
+- [JWT]() - User Authentication using JSON Web Tokens
 
 &nbsp;
 

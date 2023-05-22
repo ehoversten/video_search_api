@@ -1,4 +1,5 @@
-# YouTube Favorites
+# Design Doc for YouTube Favorites MERN Application
+&nbsp;
 
 This application allows a User to register/login to the application using JSON web tokens (JWT) for user authentication. The user has the ability to enter a search term, which makes a request to the YouTube API. A grid of results will then be displayed, the user has the ability to select a video from the list for a detailed view. A logged in User may save videos to their personal profile and view all saved videos in their favorites list. Saved videos may be removed from Users favorite’s view. The application is designed to be mobile responsive and user friendly. 
 
@@ -11,15 +12,15 @@ As a YouTube video user, I want to be able to search by topic and save videos to
 &nbsp;
 
 ## Acceptance Criteria:
-
-* As a user, I can register and sign-in to my account using my email and password.
-* As a user, I can add to and delete from my favorites listings if I am an authenticated user.
-* As a user, I can search for videos using the YouTube API based on user keyword input.
-* As a user, I can view the details of a keyword search, including its title, thumbnail preview, content creator and short description.
-* As a user, I can add friends and see their list of saved favorites – yet to implement
-* As a user, I can access the online platform from any device, and the platform should be responsive and user-friendly.
-* As a user, I expect the online platform to be secure and protect my personal information.
-
+```md
+As a user, I can register and sign-in to my account using my email and password.
+As a user, I can add to and delete from my favorites listings if I am an authenticated user.
+As a user, I can search for videos using the YouTube API based on user keyword input.
+As a user, I can view the details of a keyword search, including its title, thumbnail preview, content creator and short description.
+As a user, I can add friends and see their list of saved favorites – yet to implement
+As a user, I can access the online platform from any device, and the platform should be responsive and user-friendly.
+As a user, I expect the online platform to be secure and protect my personal information.
+```
 &nbsp;
 
 ## Development:
@@ -72,38 +73,54 @@ As a YouTube video user, I want to be able to search by topic and save videos to
 
 &nbsp;
 
+## Technology:
+
+- [JavaScript]() - Development Language
+- [Node](www.nodejs.org) - Backend Sever
+- [Express]() - Web framework
+- [React]() - Frontend 
+- [ContextAPI]() - Frontent State Management
+- [React-Bootstrap]() - CSS Framework
+- [MongoDB]() - Database Storage
+- [Mongoose]() - Database ORM
+- [JWT]() - User Authentication using JSON Web Tokens
+
+&nbsp;
+
 ## RESTful Routes
+```md
+/users
 
-**/users**
+GET -    /                   Get single user by req.user object
+POST -   /register           Create new user
+            ->	body : { first: “ ”, last: “ ”, username: “ “, email: “ “, password: “ “, confirm: “ “ }
+POST -   /login              Login user
+            ->	body : { email: “ ” , password: “ ” }
+GET -    /logout             Logout user (remove jwt token from cookie)
+GET -    /verify-token       Verify users JWT token is valid
 
-GET - /              Get single user by req.user object
-POST -  /register                        Create new user
--	body : { first: “ ”, last: “ ”, username: “ “, email: “ “, password: “ “, confirm: “ “ }
-POST -  /login                            Login user
--	body : { email: “ ” , password: “ ” }
-GET -  /logout                            Logout user (remove jwt token from cookie)
-GET -  /verify-token                   Verify users JWT token is valid
 
+/favorites
+
+GET -     /                   Get all favorites                   
+GET -     /:id                Get single favorite by ID
+POST -    /create             Add video to users favorites
+DELETE -  /:id                Remove video from users favorites
+
+
+/api
+
+POST -    /                   Send query with API request to YouTube API 
+            ->	body : { query : “query search” } 
+GET -     /favorites/:id      Get single favorite by ID
+```
 &nbsp;
-**/favorites**
-
-GET -  /                                       Get all favorites                   
-GET -  /:id                                   Get single favorite by ID
-POST -  /create                           Add video to users favorites
-DELETE -  /:id                             Remove video from users favorites
-
-&nbsp;
-**/api**
-
-POST -  /                                    Send query with API request to YouTube API 
--	body : { query : “query search” } 
-GET -  /favorites/:id                  Get single favorite by ID
-
 &nbsp;
 
 ### State Management:
-
+&nbsp;
 React ContextAPI
+
 -	userContext
 -	favoritesContext
 -	searchResutlsContext
@@ -115,6 +132,7 @@ React ContextAPI
 
 
 ## To – Do Items:
+&nbsp;
 *	Remove favoritesContext (explore further to verify?)
 *	Update Results-List Component with loading state while querying for users associated favorites
 *	Remove extraneous comments
@@ -127,3 +145,5 @@ React ContextAPI
 *	Remove Favorites-Container component
 *	Remove favorites link in Navigation Component when user is NOT logged in.
 *   Add Infinite Scroll
+
+---

@@ -23,7 +23,7 @@ As a YouTube video user, I want to be able to search by topic and save videos to
 &nbsp;
 
 ## Acceptance Criteria:
-
+```md
 As a user, I can register and sign-in to my account using my email and password.
 As a user, I can add to and delete from my favorites listings if I am an authenticated user.
 As a user, I can search for videos using the YouTube API based on user keyword input.
@@ -31,13 +31,13 @@ As a user, I can view the details of a keyword search, including its title, thum
 As a user, I can add friends and see their list of saved favorites – yet to implement
 As a user, I can access the online platform from any device, and the platform should be responsive and user-friendly.
 As a user, I expect the online platform to be secure and protect my personal information.
-
+```
 &nbsp;
 
-## Usage
+## Usage:
 
+```md
 A User Can:
-
 - Register
 - Login
 - Authorized User is allowed to Save or Remove a video from favorites list
@@ -47,11 +47,11 @@ A Favorite Can:
 
 - Be Added to the current Users favorites
 - Be Removed from the current Users favorites
-
+```
 
 &nbsp;
 
-## Installation
+## Installation:
 
 Start by cloning the project Repo
 
@@ -77,32 +77,33 @@ $> npm run start
 
 &nbsp;
 
-## Deployment
+## Deployment:
 
-React Frontend and NodeJS Backend Deployed on Render.com
+React Frontend and NodeJS Backend Deployed on [Render.com](https://render.com/)
 
 &nbsp;
 
-## Built With
+## Built With:
 
 - [JavaScript]() - Development Language
 - [Node](www.nodejs.org) - Backend Sever
 - [Express]() - Web framework
 - [React]() - Frontend 
+- [ContextAPI] - Frontent State Management
 - [React-Bootstrap]() - CSS Framework
-- [MongoDB]() - Database Storage
+- [MongoDB Atlas]() - Cloud Database Storage
 - [Mongoose]() - Database ORM
 - [JWT]() - User Authentication using JSON Web Tokens
 
 &nbsp;
 
-## Versioning
+## Versioning:
 
 Version 1.1
 
 &nbsp;
 
-## Authors
+## Authors:
 
 - **Erik Hoversten** - _Backend API and Database Development_ - GitHub: [ehoversten](https://github.com/ehoversten)
 - **Jose Gonzalez** - _Frontend, Styling and React Development_ - GitHub: [Exia01](https://github.com/Exia01)
@@ -111,6 +112,6 @@ See also the list of [contributors](https://github.com/ehoversten/video_search_a
 
 &nbsp;
 
-## License
+## License:
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details

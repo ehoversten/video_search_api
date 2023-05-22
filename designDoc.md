@@ -79,11 +79,12 @@ As a user, I expect the online platform to be secure and protect my personal inf
 - [Node](www.nodejs.org) - Backend Sever
 - [Express]() - Web framework
 - [React]() - Frontend 
-- [ContextAPI]() - Frontent State Management
+- [ContextAPI]() - Frontend State Management
 - [React-Bootstrap]() - CSS Framework
 - [MongoDB]() - Database Storage
 - [Mongoose]() - Database ORM
 - [JWT]() - User Authentication using JSON Web Tokens
+- [Render.com](www.render.com) - Hosting / Deployment
 
 &nbsp;
 

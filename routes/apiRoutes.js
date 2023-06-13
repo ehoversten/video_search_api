@@ -16,7 +16,7 @@ router.get('/:query', (req, res) => {
 
     searchAPI(req.params.query)
         .then(response => {
-            // console.log(response.data);
+            console.log(response.data);
             res.status(200).json(response.data);
         })
         .catch(err => {

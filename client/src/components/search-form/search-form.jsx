@@ -36,11 +36,13 @@ function SearchForm(props) {
     try {
       let dataPost = await axios.post('/api', { query }, { headers: { 'content-type': 'application/json' }});
   //    let dataGet = await axios.get(`/api/${query}`, { headers: { 'content-type': 'application/json' }});
-    //  console.log("Post Request: ", dataPost);
+     console.log("Request Response: ", dataPost);
       // console.log("*************************");
       // console.log("Get Request: ", dataGet);
 
-      
+      console.log("Data with next page Token: ", dataPost.data);
+      // How do I store this value and previous page token for use in infinate scrolling?
+      console.log("Next Page Token: ", dataPost.data.nextPageToken);
       console.log("Data: ", dataPost.data.items);
 
       // Save to resultsContext

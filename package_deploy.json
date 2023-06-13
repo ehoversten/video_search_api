@@ -1,0 +1,45 @@
+{
+    "name": "video_search_api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "watch": "nodemon server.js",
+      "start": "node server",
+      "start:prod": "node server.js",
+      "start:dev": "concurrently \"npm run watch\" \"cd client && npm start\"",
+      "dev": "concurrently \"npm run start\" \"npm run client\"",
+      "client": "cd client && npm run start",
+      "install": "cd client && npm install",
+      "build": "cd client && npm run build",
+      "render-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    },
+    "engines": {
+      "node": "16.20.0"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/ehoversten/video_search_api.git"
+    },
+    "author": "Erik Hoversten, Jose Gonzalez",
+    "license": "MIT",
+    "bugs": {
+      "url": "https://github.com/ehoversten/video_search_api/issues"
+    },
+    "homepage": "https://github.com/ehoversten/video_search_api/",
+    "dependencies": {
+      "axios": "^0.21.1",
+      "bcrypt": "^5.0.0",
+      "concurrently": "^8.0.1",
+      "cookie-parser": "^1.4.5",
+      "cors": "^2.8.5",
+      "dotenv": "^8.2.0",
+      "express": "^4.17.1",
+      "jsonwebtoken": "^8.5.1",
+      "jwt-decode": "^3.1.2",
+      "mongoose": "^5.11.13",
+      "morgan": "^1.10.0"
+    }
+  }
+  

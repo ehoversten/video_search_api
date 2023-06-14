@@ -15,40 +15,51 @@ import classes from './search-form.module.css';
 function SearchForm(props) {
   const [query, setQuery] = useState('');
   const [apiError, setApiError] = useState('');
+  // are we using this(?)
   const { searchResults, setSearchResults } = useContext(SearchResultContext);
+
   const { search, setSearch } = useContext(SearchContext);
 
+  // do we need this to keep our search history(?)
+  /*
   useEffect(() => {
     const getSearchResults = async () => {
       if (search.results && search.keywordSearch) {
+        console.log("Updating search results context")
         setSearchResults(search.results);
         setQuery(search.keywordSearch);
       }
     };
+
     getSearchResults();
     return () => {
       //cleanup
     };
   }, [searchResults]);
+  */
 
   async function submit(e) {
     e.preventDefault();
     try {
       let dataPost = await axios.post('/api', { query }, { headers: { 'content-type': 'application/json' }});
+
+      console.log("Post Response: ", dataPost);
+
+      // Is a GET request a less expensive action than a POST request(?)
   //    let dataGet = await axios.get(`/api/${query}`, { headers: { 'content-type': 'application/json' }});
-     console.log("Request Response: ", dataPost);
       // console.log("*************************");
       // console.log("Get Request: ", dataGet);
 
-      console.log("Data with next page Token: ", dataPost.data);
+      // console.log("Data with next page Token: ", dataPost.data);
       // How do I store this value and previous page token for use in infinate scrolling?
       console.log("Next Page Token: ", dataPost.data.nextPageToken);
       console.log("Data: ", dataPost.data.items);
 
-      // Save to resultsContext
-      setSearchResults(dataPost.data.items);
-      // Lift State UP
-      props.setData(dataPost.data.items);
+      // Save to search-result context
+      setSearchResults(dataPost.data.items);  // this will cause a rerender
+
+      // Lift State UP --> for what purpose(?)
+      props.setData(dataPost.data.items); // will this cause a rerender(?)
 
       // console.log("Data: ", dataGet.data.items);
       // setSearchResults(dataGet.data.items);
@@ -59,8 +70,9 @@ function SearchForm(props) {
       // props.setData(data.data.items);
 
       setQuery('');
-      setSearch({ results: dataPost.data.items, keywordSearch: query });
-      // setSearch({ results: dataGet.data.items, keywordSearch: query });
+      // Save to searchHistory context
+      setSearch({ results: dataPost.data.items, keywordSearch: query, nextPageToken: dataPost.data.nextPageToken });
+      // setSearch({ results: dataGet.data.items, keywordSearch: query, nextPageToken: dataPost.data.nextPageToken });
       setApiError('');
     } catch (err) {
       console.log(err.response.data.msg);

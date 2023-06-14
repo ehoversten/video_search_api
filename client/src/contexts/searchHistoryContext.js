@@ -10,10 +10,15 @@ const SearchContextProvider = (props) => {
   const [search, setSearch] = useState({
     results: null,
     keywordSearch: '',
+    nextPageToken: null
   });
 
   useEffect(() => {
     console.log('Ran from inside videoHistoryContext');
+
+    return () => {
+      // cleanup functionality
+    }
   }, []);
 
   // const getLocalVideosArr = () => {

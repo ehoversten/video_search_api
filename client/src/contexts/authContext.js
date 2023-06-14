@@ -7,6 +7,7 @@ const AuthContext = createContext();
 function AuthContextProvider(props) {
   const [loggedIn, setLoggedIn] = useState(undefined);
 
+  // --> not currently being implemented
   const getLocalAuthInfo = () => {
     const localExpiryAt = localStorage.getItem('expiresAt');
   };
@@ -14,7 +15,6 @@ function AuthContextProvider(props) {
   async function getLoggedIn() {
     try {
       const loggedInRes = await axios.get('/users/verify-token', { headers: { 'content-type': 'application/json'}});
-      console.log(`User: ${loggedInRes}`);
       console.log(`User logged in: ${loggedInRes.data}`);
       setLoggedIn(loggedInRes.data);
     } catch (error) {

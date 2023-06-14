@@ -53,12 +53,12 @@ router.post('/register', async (req, res) => {
   try {
     let { first, last, username, email, password, passwordCheck } = req.body;
 
-    // -- VALIDATION --//
+    // -- VALIDATION of empty inputs --//
     if (!username || !email || !password || !passwordCheck) {
       return res.status(400).json({ msg: 'Required field(s) missing' });
     }
     let user = await User.findOne({ email });
-    //-- Check User exists(???)
+    //-- Check User exists
     if (user) {
       return res
         .status(400)
@@ -70,7 +70,7 @@ router.post('/register', async (req, res) => {
         .status(400)
         .json({ msg: 'Password must be at least 5 characters long' });
     }
-    // User Email already exists in database (?)
+    //-- User Email already exists in database (?)
     const currentUser = await User.findOne({ email: email });
     if (currentUser) {
       return res
@@ -97,8 +97,7 @@ router.post('/register', async (req, res) => {
     // Create/Sign Token
     const token = jwt.sign({ id: savedUser._id }, process.env.TOKEN_SECRET);
     console.log("Token: ", token);
-    // send token in HTTP-only Cookie
-    // res.cookie('token', token, { httpOnly: true }).send();
+    // --> send token in HTTP-only Cookie
     res.cookie('token', token, { httpOnly: true });
 
     // Send JSON response
@@ -206,7 +205,7 @@ router.get('/verify-token', async (req, res) => {
     // req.user = user;
     // console.log("Req UserID: ", req.user);
 
-    // -- Return TRUE if valid token || to WHERE ??
+    // -- Return TRUE if valid token || to WHERE (to the authContext getLoggedIn method)
     return res.json(true);
   } catch (err) {
     console.log(err);

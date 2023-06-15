@@ -26,6 +26,7 @@ function Login(props) {
     password: '',
     passwordCheck: '',
   });
+
   const [formErrors, setFormErrors] = useState({
     email: '',
     password: '',
@@ -41,20 +42,24 @@ function Login(props) {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setFormErrors({
-      formErrors,
-      resError: '',
-    });
-    // Validation
-    // if (password === '' || passwordCheck === '') {
-    //   setFormErrors({
-    //     ...formErrors,
-    //     password: 'Missing form information',
-    //     passwordCheck: 'Missing form information',
-    //   });
-    //   console.log('Missing form information');
-    //   return;
-    // }
+    // --> What is this doing for the app(?)
+    // setFormErrors({
+    //   formErrors,
+    //   resError: '',
+    // });
+
+
+    //--> Validations
+    if (password === '' || passwordCheck === '') {
+      setFormErrors({
+        ...formErrors,
+        password: 'Missing form information',
+        passwordCheck: 'Missing form information',
+      });
+      console.log('Missing form information');
+      return;
+    }
+
     if (password !== passwordCheck) {
       setFormErrors({
         ...formErrors,
@@ -72,7 +77,7 @@ function Login(props) {
       // -- TESTING -- //
       console.log(`Authorized:`, authorized);
 
-      await getLoggedIn();
+      await getLoggedIn();  // --> /users/verify-token
 
       // if(authorized) {
       //   localStorage.setItem('x-auth-token', authorized.data.token);
@@ -91,8 +96,7 @@ function Login(props) {
         resError: '',
       });
 
-      // Redirect to Another Component
-      // history.push('/users');
+      // Redirect to Favorites Component
       history.push('/favorites');
     } catch (err) {
       setFormErrors({

@@ -8,7 +8,7 @@ require('dotenv').config();
 const User = require('../models/User');
 const Favorite = require('../models/Favorites');
 
-// @@ Route : /users
+// @@ Route : /users    --> to be removed to moved to a ADMIN role
 router.get('/', isAuthorized, async (req, res) => {
   try {
     // const userTest = await User.findById(req.user);
@@ -17,21 +17,9 @@ router.get('/', isAuthorized, async (req, res) => {
       .select('-__v')
       .populate('user_favorites')
 
-    console.log("Authorized User: ", user);
+    // console.log("Authorized User: ", user);
 
-    // const favs = await Favorite.find({})
-    // console.log("All Favorites: ", favs);
-    // const userFavs = favs.filter((item, idx) => {
-    //   console.log("Index: ", idx);
-    //   console.log("Favorite ID: ", user.user_favorites[idx]);
-    //   console.log("Item ID: ", item._id);
-    //   // if(item._id == user.user_favorites[idx]) {
-    //   //   return item;
-    //   // }
-    //   return (item._id == user.user_favorites[idx]);
-    // });
-    // console.log("User Favorites: ", userFavs);
-    // res.send(user);
+    // --> Remove extranious user data
     let returnUser = {
       _id: user._id,
       first: user.first,
@@ -40,8 +28,8 @@ router.get('/', isAuthorized, async (req, res) => {
       email: user.email,
       user_favorites: user.user_favorites
     }
-    // res.status(200).json(returnUser);
-    res.status(200).json(user);
+    res.status(200).json(returnUser);
+
   } catch (err) {
     res.status(400).json({ msg: 'Not Authorized', error: err });
   }
@@ -50,6 +38,7 @@ router.get('/', isAuthorized, async (req, res) => {
 // @@ REGISTER ROUTE
 // @@
 router.post('/register', async (req, res) => {
+
   try {
     let { first, last, username, email, password, passwordCheck } = req.body;
 
@@ -127,13 +116,13 @@ router.post('/login', async (req, res) => {
       return res.status(500).json({ msg: 'Email not registered' });
     }
 
-    // Compare Password
-    console.log("Pass: ", password)
-    console.log("User Pass: ", currentUser.password)
+    // -- TESTING --> Compare Password
+    // console.log("Pass: ", password)
+    // console.log("User Pass: ", currentUser.password)
+    // console.log("User Hash: ", currentUser.hash)
 
-    // const passMatch = bcrypt.compare(password, currentUser.password);
-    const passMatch = bcrypt.compare(password, currentUser.hash);
-    console.log("Match: ", passMatch);
+    const passMatch = bcrypt.compare(password, currentUser.password);
+    // console.log("Match: ", passMatch);
     if (!passMatch) {
       return res.status(403).json({ msg: 'Not Authorized' });
     }
@@ -143,15 +132,17 @@ router.post('/login', async (req, res) => {
       algorithm: 'HS256',
       expiresIn: '1h',
     });
-    const decodedToken = jwtDecode(token);
-    console.log("Token: ", decodedToken);
+    // -- TESTING -- //
+    // const decodedToken = jwtDecode(token);
+    // console.log("Token: ", decodedToken);
+
     // send token in HTTP-only Cookie
-    // res.cookie('token', token, { httpOnly: true }).send();
     res.cookie('token', token, { httpOnly: true });
 
     // Send Successful Response
     return res.status(200).json({
       message: 'Authentication successful!',
+      token,
       user: {
         id: currentUser._id,
         first: currentUser.first,
@@ -171,6 +162,7 @@ router.post('/login', async (req, res) => {
 // @@
 router.get('/logout', (req, res) => {
   // res.headers({ "x-auth-token": "" });
+  // --> clear token from cookie
   res.cookie('token', '', { httpOnly: true, expires: new Date(0) }).send();
 });
 
@@ -183,6 +175,7 @@ router.get('/verify-token', async (req, res) => {
     // Check Cookie for Token
     const cookie = req.cookies.token;
     if (!cookie) {
+      console.log("Cannot find COOKIE!!!")
       return res.json(false);
     }
     // -- Check Header for Token

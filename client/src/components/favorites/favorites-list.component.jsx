@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import AuthContext from '../../contexts/authContext';
-import UserContext from '../../contexts/userContext';
+// import UserContext from '../../contexts/userContext';
 import axios from 'axios';
 
 // Bootstrap Styles
-import { Form, Button } from 'react-bootstrap';
+// import { Form, Button } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
@@ -13,13 +13,14 @@ import Col from 'react-bootstrap/Col';
 import FavoritePreview from './favorites-preview.component';
 
 export default function FavoritesList() {
-
+    // Why not save the user in the Context(?)
     const { loggedIn } = useContext(AuthContext);
     // const { user } = useContext(UserContext);
     const [current, setCurrent] = useState([]);
     const [currentUser, setCurrentUser] = useState({});
     const [loading, setLoading] = useState(true);
 
+    // --> Try to add references to prevent multiple renders
     useEffect(() => {
         // axios
         //     .get('/favorites/')

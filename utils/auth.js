@@ -7,6 +7,7 @@ const isAuthorized = (req, res, next) => {
   if (!cookie) {
     return res.status(403).json({ msg: 'Token Missing, Authorization Denied' });
   }
+  console.log("Auth Cookie: ", cookie);
 
   // const token = req.header('x-auth-token');
   // if(!token) {
@@ -19,13 +20,13 @@ const isAuthorized = (req, res, next) => {
   if (!verified) {
     return res.status(403).json({ msg: 'Token Failed, Authorization Denied' });
   }
-  console.log("Verified: ", verified);
+  // console.log("Verified: ", verified);
 
-  // Set User ID
+  // Set User ID on the REQUEST object
   req.user = verified.id;
-  console.log("User Id: ",req.user);
+  // console.log("User Id: ",req.user);
   // Call Next middleware
-  console.log('Calling NEXT Middleware');
+  // console.log('Calling NEXT Middleware');
   next();
 };
 

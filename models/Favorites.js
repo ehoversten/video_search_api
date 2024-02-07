@@ -38,14 +38,7 @@ const FavoriteSchema = new Schema(
       type: String,
       trim: true,
       required: true
-    },
-    // addedBy: { type: Schema.Types.ObjectId, ref: 'User' },
-    // timesViewed: {
-    //   type: Number,
-    // },
-    // isPublic: {
-    //   type: Boolean,
-    // },
+    }
   },
   {
     timestamps: true,

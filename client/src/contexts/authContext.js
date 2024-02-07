@@ -1,4 +1,4 @@
-import { useState, createContext, useEffect } from 'react';
+import { useState, createContext, useEffect, useRef } from 'react';
 import axios from 'axios';
 
 // Initialize a CONTEXT OBJECT
@@ -6,15 +6,15 @@ const AuthContext = createContext();
 
 function AuthContextProvider(props) {
   const [loggedIn, setLoggedIn] = useState(undefined);
-
+  const runOnce = useRef(false);
+  // --> not currently being implemented
   const getLocalAuthInfo = () => {
     const localExpiryAt = localStorage.getItem('expiresAt');
   };
 
   async function getLoggedIn() {
     try {
-      const loggedInRes = await axios.get('/users/verify-token', { headers: { 'content-type': 'application/json'}});
-      console.log(`User: ${loggedInRes}`);
+      const loggedInRes = await axios.get('/users/verify-token', { headers: { 'content-type': 'application/json'}, withCredentials: true});
       console.log(`User logged in: ${loggedInRes.data}`);
       setLoggedIn(loggedInRes.data);
     } catch (error) {
@@ -24,7 +24,15 @@ function AuthContextProvider(props) {
   }
 
   useEffect(() => {
-    getLoggedIn();
+    if(!runOnce.current) {
+      console.log("Running Auth Context");
+      runOnce.current = true;
+      getLoggedIn();
+    }
+
+    return () => {
+
+    }
   }, []);
 
   return (

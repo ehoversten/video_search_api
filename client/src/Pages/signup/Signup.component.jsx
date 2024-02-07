@@ -8,7 +8,6 @@ import axios from 'axios';
 import classes from './Signup.module.css';
 
 // Bootstrap Styles
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -45,11 +44,6 @@ export default function SignUp() {
     if (password !== passwordCheck) {
       console.error('Passwords do not Match');
     }
-
-    //-- TESTING --//
-    console.log('Submitting');
-    console.log(formData);
-
     //-- create temp user
     const user = {
       first,
@@ -73,19 +67,11 @@ export default function SignUp() {
       const body = JSON.stringify(user);
 
       const res = await axios.post('/users/register', body, config);
-      //-- TESTING --//
-      console.log(res.data);
+      if(!res) {
+        // setError variable(?)
+      }
 
-      await getLoggedIn();
-
-      // if(res) {
-      //   localStorage.setItem('x-auth-token', res.data.token);
-
-      //   setUserData({
-      //     token: res.data.token,
-      //     user: res.data.user
-      //   })
-      // }
+      await getLoggedIn();  // --> return 'true'
 
       //-- Clear input -- //
       setFormData({
@@ -97,13 +83,12 @@ export default function SignUp() {
         passwordCheck: '',
       });
 
-      // history.push('/users');
+      // -- Redirect to /favorites route
       history.push('/favorites');
-      //-- Update toDashboard State
-      // alert('Finished!');
     } catch (err) {
       console.error(err.response.data);
-      // res.status(500).json(err);
+      // res.status(500).json(err);  --> cannot return error response this way
+      // --> should update an error state(?)
     }
   };
 

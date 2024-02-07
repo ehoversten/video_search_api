@@ -12,13 +12,12 @@ const favorite_routes = require('./routes/favoritesRoute');
 const api_routes = require('./routes/apiRoutes');
 
 const app = express();
-app.use(cors());
 // app.use(cors({ credentials: true }));
 
 // -- DATABASE CONNECTION -- //
 mongoose.connect(
-//  process.env.MONGODB_URI || 'mongodb://localhost/video_favorites',
-  process.env.MONGODB_URI,
+  //  process.env.MONGODB_URI || 'mongodb://localhost/video_favorites',
+  process.env.MONGO_URI_test,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -31,18 +30,19 @@ mongoose.connect(
       throw err;
     }
   }
-);
-
-mongoose.connection.on('connected', () => {
-  console.log('Mongo DB connected...');
-});
-
-// -- MIDDLEWARE --//
-app.use(express.urlencoded({ extended: false })); //Do we need this one still? We can do extended false on express.json
-app.use(express.json());
-app.use(cookieParser());
-app.use(morgan('dev'))
-
+  );
+  
+  mongoose.connection.on('connected', () => {
+    console.log('Mongo DB connected...');
+  });
+  
+  // -- MIDDLEWARE --//
+  app.use(express.urlencoded({ extended: false })); //Do we need this one still? We can do extended false on express.json
+  app.use(express.json());
+  app.use(cookieParser());
+  app.use(morgan('dev'))
+  app.use(cors());
+  
 // -- ROUTES -- //
 // app.get('/', (req, res) => {
 //   res.send('Hit Landing Page');

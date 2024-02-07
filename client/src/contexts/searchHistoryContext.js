@@ -5,14 +5,20 @@ const SearchContext = createContext();
 
 const SearchContextProvider = (props) => {
   const localSearchResults = localStorage.getItem('searchResults');
+  // Where is the Keyword being saved to Local Storage(?)
   const keyword = localStorage.getItem('keyword');
   const [search, setSearch] = useState({
     results: null,
     keywordSearch: '',
+    nextPageToken: null
   });
 
   useEffect(() => {
     console.log('Ran from inside videoHistoryContext');
+
+    return () => {
+      // cleanup functionality
+    }
   }, []);
 
   // const getLocalVideosArr = () => {

@@ -20,6 +20,7 @@ export default function FavoritesList() {
     const [currentUser, setCurrentUser] = useState({});
     const [loading, setLoading] = useState(true);
 
+    // --> Try to add references to prevent multiple renders
     useEffect(() => {
         // axios
         //     .get('/favorites/')

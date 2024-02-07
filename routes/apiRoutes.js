@@ -46,22 +46,22 @@ router.post('/test', isAuthorized, (req, res) => {
 });
 
 // router.get('/favorites/:favorite_id', isAuthorized, async (req, res) => {
-router.get('/favorites/:favorite_id', async (req, res) => {
-    try {
-      const id = req.params.favorite_id;
-      const foundFavoriteVideo = await Favorite.findById(id).exec();
-      if (!foundFavoriteVideo) {
-        return res.status(400).json({ msg: 'Not Found' });
-      }
+// router.get('/favorites/:favorite_id', async (req, res) => {
+//     try {
+//       const id = req.params.favorite_id;
+//       const foundFavoriteVideo = await Favorite.findById(id).exec();
+//       if (!foundFavoriteVideo) {
+//         return res.status(400).json({ msg: 'Not Found' });
+//       }
   
-      return res.status(200).json({ favorite: foundFavoriteVideo });
-    } catch (err) {
-      console.log(err.stack);
-      const errMsg = err.stack;
-      let message = 'Could not complete request';
-      return res.status(500).json({ error: message, errMsg, err });
-    }
-  });
+//       return res.status(200).json({ favorite: foundFavoriteVideo });
+//     } catch (err) {
+//       console.log(err.stack);
+//       const errMsg = err.stack;
+//       let message = 'Could not complete request';
+//       return res.status(500).json({ error: message, errMsg, err });
+//     }
+//   });
 
 module.exports = router;
 

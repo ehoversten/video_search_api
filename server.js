@@ -17,7 +17,7 @@ const app = express();
 // -- DATABASE CONNECTION -- //
 mongoose.connect(
   //  process.env.MONGODB_URI || 'mongodb://localhost/video_favorites',
-  process.env.MONGODB_URI,
+  process.env.MONGO_URI_test,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
